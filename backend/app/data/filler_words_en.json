@@ -1,0 +1,17 @@
+{
+    "filler_words": [
+        "um", "uh", "like", "you know", "so", "actually", "basically",
+        "literally", "right", "okay", "well", "i mean", "sort of", "kind of",
+        "you see", "i guess", "i suppose", "or something", "whatever",
+        "anyway", "anyhow", "honestly", "frankly", "seriously",
+        "basically", "essentially", "technically", "obviously",
+        "clearly", "apparently", "supposedly", "hopefully",
+        "maybe", "perhaps", "probably", "possibly",
+        "just", "really", "very", "quite", "pretty", "somewhat",
+        "sorta", "kinda", "literally", "figuratively",
+        "to be honest", "to tell you the truth", "truth be told",
+        "as a matter of fact", "in fact", "indeed",
+        "now", "so then", "and then", "next", "finally",
+        "anyways", "anywho", "moving on", "so yeah", "so um"
+    ]
+}

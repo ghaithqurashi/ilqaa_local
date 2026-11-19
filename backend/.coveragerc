@@ -1,0 +1,76 @@
+[run]
+source = .
+omit = 
+    # Testing
+    */tests/*
+    */test_*.py
+    */conftest.py
+    
+    # Environments
+    */venv/*
+    */.venv/*
+    */env/*
+    */node_modules/*
+    
+    # Cache and generated
+    */__pycache__/*
+    */migrations/*
+    */alembic/*
+    */build/*
+    */dist/*
+    
+    # Special files
+    coverage_wrapper.py
+    */__init__.py
+    **/__init__.py
+    
+    # Your specific problematic file
+    config-*.py
+
+parallel = true
+branch = false
+
+[report]
+ignore_errors = true
+exclude_lines =
+    # Manual exclusions
+    pragma: no cover
+    
+    # Common unreachable code
+    raise NotImplementedError
+    raise AssertionError
+    
+    # Type checking
+    if TYPE_CHECKING:
+    from typing import.*TYPE_CHECKING
+    
+    # Dunder methods
+    def __repr__
+    def __str__
+    def __eq__
+    def __len__
+    
+    # FastAPI decorators
+    @app\.
+    @.*\(.*app.*\)
+    
+    # Main guard
+    if __name__ == .__main__.:
+    
+    # Async/await
+    async def
+    async with
+    async for
+    
+    # Property decorators
+    @property
+    @.*\.setter
+    
+    # Empty blocks
+    except[\s\w]*:[\s]*(pass|\.\.\.)
+    else:[\s]*(pass|\.\.\.)
+    finally:[\s]*(pass|\.\.\.)
+
+show_missing = true
+skip_covered = false
+precision = 2

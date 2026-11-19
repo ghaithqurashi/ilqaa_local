@@ -1,0 +1,48 @@
+{
+  "eyeContact": {
+    "value": 90,
+    "max": 100,
+    "status": "excellent",
+    "color": "data-green"
+  },
+  "handGestures": {
+    "value": 14,
+    "unit": "/min",
+    "optimalMin": 10,
+    "optimalMax": 20,
+    "percentage": 70,
+    "color": "data-green"
+  },
+  "facialExpression": {
+    "value": "Engaged",
+    "status": "positive"
+  },
+  "posture": {
+    "value": "Upright",
+    "status": "positive"
+  },
+  "pace": {
+    "value": 0,
+    "unit": "WPM",
+    "percentage": 0,
+    "status": "warning",
+    "color": "data-amber"
+  },
+  "volume": {
+    "value": -12,
+    "unit": "dB",
+    "percentage": 80,
+    "status": "positive",
+    "color": "data-green"
+  },
+  "pitch": {
+    "value": 140,
+    "unit": "Hz",
+    "status": "positive"
+  },
+  "fillerWords": {
+    "value": 0,
+    "status": "warning",
+    "color": "data-red"
+  }
+}

@@ -1,0 +1,10 @@
+# Root ignores (each subproject keeps its own .gitignore)
+.DS_Store
+.venv/
+node_modules/
+.env
+.env.local
+
+# Smoke-test output (backend/scripts/smoke_test_practice.py)
+backend/results-*
+backend/tts-sample.*

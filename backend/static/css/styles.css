@@ -1,0 +1,367 @@
+/* styles.css - Comprehensive styles for Ilqaa platform */
+
+/* Base styles */
+body {
+  font-family: 'Cairo', sans-serif;
+  min-height: max(884px, 100dvh);
+}
+
+.material-icons-outlined {
+  font-size: inherit;
+}
+
+/* Progress rings and circular progress */
+.progress-ring-circle {
+  transition: stroke-dashoffset 0.35s;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+[dir="rtl"] .progress-ring-circle {
+  transform: rotate(-90deg) scaleX(-1);
+}
+
+/* Alert Banner Animations */
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(251, 191, 36, 0);
+  }
+}
+
+.alert-slide-in {
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.alert-slide-out {
+  animation: slideDown 0.3s cubic-bezier(0.7, 0, 0.84, 0);
+}
+
+.alert-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.alert-glow {
+  animation: glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Metric Badge */
+.metric-badge {
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+}
+
+.metric-badge:hover {
+  transform: scale(1.05);
+}
+
+/* Settings Modal Animation */
+#settings-modal {
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Real-time Transcription Styles */
+.realtime-transcription {
+  transition: all 0.3s ease;
+}
+
+.partial-text {
+  opacity: 0.7;
+  font-style: italic;
+}
+
+.final-text {
+  opacity: 1;
+  font-weight: 500;
+}
+
+.blinking-cursor {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+/* Data colors for metrics */
+.text-data-green {
+  color: #2ECC71;
+}
+
+.text-data-amber {
+  color: #F1C40F;
+}
+
+.text-data-red {
+  color: #E74C3C;
+}
+
+.bg-data-green {
+  background-color: #2ECC71;
+}
+
+.bg-data-amber {
+  background-color: #F1C40F;
+}
+
+.bg-data-red {
+  background-color: #E74C3C;
+}
+
+/* Enhanced hover effects */
+.hover-lift {
+  transition: all 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Loading animations */
+.animate-spin-slow {
+  animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Custom scrollbar for webkit browsers */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-track {
+  background: #374151;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #6B7280;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #9CA3AF;
+}
+
+/* Text selection styles */
+::selection {
+  background-color: #3b82f6;
+  color: white;
+}
+
+::-moz-selection {
+  background-color: #3b82f6;
+  color: white;
+}
+
+/* Focus styles for accessibility */
+.focus-ring:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-break-before {
+    page-break-before: always;
+  }
+  
+  .print-break-after {
+    page-break-after: always;
+  }
+  
+  .print-break-inside-avoid {
+    page-break-inside: avoid;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .bg-background-light {
+    background-color: white;
+  }
+  
+  .bg-background-dark {
+    background-color: black;
+  }
+  
+  .text-text-light {
+    color: black;
+  }
+  
+  .text-text-dark {
+    color: white;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Authentication Loading spinner */
+.loading-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.text-blue-500 { color: #3b82f6; }
+.text-green-500 { color: #10b981; }
+.text-red-500 { color: #ef4444; }
+
+/* Add to styles.css */
+#language-menu {
+    animation: fadeIn 0.2s ease-out;
+}
+
+#mobile-actions-menu {
+    animation: slideDown 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Add to styles.css */
+#mobile-actions-menu {
+    animation: slideDown 0.2s ease-out;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Ensure mobile menu is above other content */
+#mobile-actions {
+    z-index: 40;
+}
+
+#mobile-actions-menu {
+    z-index: 50;
+}
+
+/* Make sure mobile menu is visible on small screens */
+@media (max-width: 1023px) {
+    #mobile-actions {
+        display: block !important;
+    }
+}
+
+@media (min-width: 1024px) {
+    #mobile-actions {
+        display: none !important;
+    }
+}

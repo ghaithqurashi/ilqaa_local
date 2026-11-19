@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <link rel="icon" href="/assets/favicon.ico">
+  <title data-i18n="index.pageTitle">إلقاء - مدرّبك الذكي للخطابة والتواصل</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&amp;display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
+  <link href="/css/styles.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#3b82f6", // Blue for Start Session
+            success: "#22c55e", // Green for Results
+            "background-light": "#f3f4f6",
+            "background-dark": "#0f172a", // Dark slate/blue tone from image
+            "surface-light": "#ffffff",
+            "surface-dark": "#1e293b", // Lighter slate for panels
+            "text-light": "#1f2937",
+            "text-dark": "#e6edf3",
+            "muted-light": "#6b7280",
+            "muted-dark": "#8b949e",
+            "border-light": "#e5e7eb",
+            "border-dark": "#334155",
+            "data-green": "#2ECC71",
+            "data-amber": "#F1C40F",
+            "data-red": "#E74C3C",
+          },
+          fontFamily: {
+            display: ["Cairo", "sans-serif"],
+            "latin": ["Cairo", "sans-serif"],
+            "arabic": ["Cairo", "sans-serif"],
+            "amiri": ["Amiri", "serif"],
+            "scheherazade": ["'Scheherazade New'", "serif"],
+          },
+          borderRadius: {
+            DEFAULT: "0.5rem", // Changed from 0.75rem to match code.html
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "2xl": "1rem",
+            "full": "9999px"
+          },
+        },
+      },
+    };
+
+    function toggleTheme() {
+      const htmlElement = document.documentElement;
+      const isDark = htmlElement.classList.contains('dark');
+      const themeIcon = document.querySelector('#theme-toggle .material-icons-outlined');
+
+      if (isDark) {
+        htmlElement.classList.remove('dark');
+        if (themeIcon) themeIcon.textContent = 'dark_mode';
+        localStorage.setItem('theme', 'light');
+      } else {
+        htmlElement.classList.add('dark');
+        if (themeIcon) themeIcon.textContent = 'light_mode';
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+
+    // Initialize theme when page loads
+    document.addEventListener('DOMContentLoaded', function () {
+      window.initializeThemeUI();
+    });
+  </script>
+  <script src="/js/config.js"></script>
+  <script src="/js/language-switcher.js"></script>
+  <script src="/js/mobile-nav.js"></script>
+  <script src="/js/theme-init.js"></script>
+</head>
+
+<body
+  class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark font-display transition-colors duration-300">
+  <header class="sticky top-0 z-50 bg-surface-light/80 dark:bg-surface-dark/80 backdrop-blur-md shadow-sm">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo Section -->
+        <div class="flex items-center space-x-4 rtl:space-x-reverse">
+          <span class="material-icons-outlined text-primary text-2xl">campaign</span>
+          <a href="#" class="text-xl font-bold text-text-light dark:text-text-dark hover:text-primary transition-colors"
+            data-i18n="common.appTitle">إلقاء</a>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden lg:flex items-center space-x-6 rtl:space-x-reverse">
+          <a class="text-sm text-muted-light dark:text-muted-dark hover:text-primary transition-colors px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+            href="#why-ilqaa" data-i18n="index.nav.whyIlqaa">لماذا إلقاء؟</a>
+          <a class="text-sm text-muted-light dark:text-muted-dark hover:text-primary transition-colors px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+            href="#how-it-works" data-i18n="index.nav.howItWorks">كيف يعمل؟</a>
+          <a class="text-sm text-muted-light dark:text-muted-dark hover:text-primary transition-colors px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+            href="#features" data-i18n="index.nav.features">الميزات</a>
+          <a class="text-sm text-muted-light dark:text-muted-dark hover:text-primary transition-colors px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+            href="#audience" data-i18n="index.nav.audience">لجميع الفئات</a>
+          <a class="text-sm text-muted-light dark:text-muted-dark hover:text-primary transition-colors px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+            href="#roadmap" data-i18n="index.nav.roadmap">خارطة الطريق</a>
+        </nav>
+
+        <!-- Right Side Buttons -->
+        <div class="flex items-center gap-2">
+          <!-- Desktop Actions (visible on desktop only) -->
+          <div class="hidden lg:flex items-center gap-2">
+
+            <!-- Login Button -->
+            <a href="/login"
+              class="bg-primary text-white font-bold py-2 px-5 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2 text-sm">
+              <span class="material-icons-outlined text-lg">login</span>
+              <span data-i18n="index.nav.getStarted">إبدأ الآن</span>
+            </a>
+
+            <!-- Language Switcher -->
+            <div class="relative" id="language-switcher">
+              <button id="language-toggle"
+                class="flex size-10 items-center justify-center rounded-lg border border-gray-300 dark:border-gray-700 text-text-light dark:text-text-dark transition-colors hover:bg-gray-100 dark:hover:bg-gray-800">
+                <span class="material-icons-outlined text-lg">language</span>
+              </button>
+              <div id="language-menu"
+                class="absolute rtl:right-0 ltr:left-0 top-12 hidden bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-700 rounded-lg p-2 min-w-32 z-50 shadow-lg">
+                <button data-lang="en"
+                  class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded hover:bg-gray-100 dark:hover:bg-gray-800">
+                  <span>English</span>
+                </button>
+                <button data-lang="ar"
+                  class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded hover:bg-gray-100 dark:hover:bg-gray-800">
+                  <span>العربية</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Theme Toggle -->
+            <button id="theme-toggle"
+              class="flex size-10 items-center justify-center rounded-lg border border-gray-300 dark:border-gray-700 text-text-light dark:text-text-dark transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
+              onclick="window.toggleTheme()">
+              <span class="material-icons-outlined text-lg">light_mode</span>
+            </button>
+
+          </div>
+
+          <!-- Mobile Actions Toggle (visible on mobile only) -->
+          <div class="lg:hidden relative" id="mobile-actions">
+            <button id="mobile-actions-toggle"
+              class="flex size-10 items-center justify-center rounded-lg border border-gray-300 dark:border-gray-700 text-text-light dark:text-text-dark transition-colors hover:bg-gray-100 dark:hover:bg-gray-800">
+              <span class="material-icons-outlined text-lg">more_vert</span>
+            </button>
+            <!-- Mobile Menu Dropdown -->
+            <div id="mobile-actions-menu"
+              class="absolute rtl:left-0 ltr:right-0 top-12 mt-2 hidden bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-700 rounded-lg p-2 min-w-48 z-50 shadow-lg space-y-1">
+
+              <!-- Language Selection Section -->
+              <div>
+                <div class="px-3 py-2 text-xs text-muted-light dark:text-muted-dark" data-i18n="common.language">اللغة
+                </div>
+                <button data-lang="ar"
+                  class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded hover:bg-gray-100 dark:hover:bg-gray-800">
+                  <span class="w-6 text-center">🇸🇦</span>
+                  <span data-i18n="common.arabic">العربية</span>
+                </button>
+                <button data-lang="en"
+                  class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded hover:bg-gray-100 dark:hover:bg-gray-800">
+                  <span class="w-6 text-center">🇬🇧</span>
+                  <span data-i18n="common.english">English</span>
+                </button>
+              </div>
+
+              <!-- Page Links Section -->
+              <div class="border-t border-gray-200 dark:border-gray-700 pt-1">
+                <a class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded hover:bg-gray-100 dark:hover:bg-gray-800"
+                  href="#why-ilqaa">
+                  <span class="material-icons-outlined text-lg">help</span>
+                  <span data-i18n="index.nav.whyIlqaa">لماذا إلقاء؟</span>
+                </a>
+                <a class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded hover:bg-gray-100 dark:hover:bg-gray-800"
+                  href="#how-it-works">
+                  <span class="material-icons-outlined text-lg">play_circle</span>
+                  <span data-i18n="index.nav.howItWorks">كيف يعمل؟</span>
+                </a>
+                <a class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded hover:bg-gray-100 dark:hover:bg-gray-800"
+                  href="#features">
+                  <span class="material-icons-outlined text-lg">star</span>
+                  <span data-i18n="index.nav.features">الميزات</span>
+                </a>
+                <a class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded hover:bg-gray-100 dark:hover:bg-gray-800"
+                  href="#audience">
+                  <span class="material-icons-outlined text-lg">groups</span>
+                  <span data-i18n="index.nav.audience">لجميع الفئات</span>
+                </a>
+                <a class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded hover:bg-gray-100 dark:hover:bg-gray-800"
+                  href="#roadmap">
+                  <span class="material-icons-outlined text-lg">map</span>
+                  <span data-i18n="index.nav.roadmap">خارطة الطريق</span>
+                </a>
+              </div>
+
+              <div class="border-t border-gray-200 dark:border-gray-700 pt-1">
+                <!-- Mobile Theme Toggle -->
+                <button id="mobile-theme-toggle"
+                  class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded hover:bg-gray-100 dark:hover:bg-gray-800">
+                  <span class="material-icons-outlined text-lg">light_mode</span>
+                  <span data-i18n="common.switchTheme">تبديل السمة</span>
+                </button>
+                <!-- Login Button (for index.html - replaces logout button) -->
+                <a href="/login"
+                  class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded hover:bg-gray-100 dark:hover:bg-gray-800">
+                  <span class="material-icons-outlined text-lg">login</span>
+                  <span data-i18n="common.login">تسجيل الدخول</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    <section class="py-20 md:py-32">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-2xl md:text-4xl font-bold text-text-light dark:text-text-dark leading-tight"
+          data-i18n="index.hero.tagline">تكلّم بثقة... ألقِ بحضور</h2>
+        <h1 class="text-6xl md:text-8xl font-black text-primary mt-2" data-i18n="index.hero.title">إلقاء</h1>
+        <p class="mt-6 text-lg md:text-xl max-w-3xl mx-auto text-muted-light dark:text-muted-dark"
+          data-i18n="index.hero.description">
+          أول منصة عربية متخصصة في تقييم وتطوير مهارات الإلقاء باستخدام الذكاء الاصطناعي.
+        </p>
+
+        <!-- Enhanced Feature Bullets -->
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto text-right">
+          <div class="flex items-center gap-3 text-muted-light dark:text-muted-dark">
+            <span class="material-icons-outlined text-primary text-xl">check_circle</span>
+            <span data-i18n="index.hero.features.bodyLanguage">تحليل لغة الجسد والتواصل البصري</span>
+          </div>
+          <div class="flex items-center gap-3 text-muted-light dark:text-muted-dark">
+            <span class="material-icons-outlined text-primary text-xl">check_circle</span>
+            <span data-i18n="index.hero.features.voiceTone">تقييم نبرة الصوت وإيقاع الحديث</span>
+          </div>
+          <div class="flex items-center gap-3 text-muted-light dark:text-muted-dark">
+            <span class="material-icons-outlined text-primary text-xl">check_circle</span>
+            <span data-i18n="index.hero.features.fillerWords">تتبع الكلمات الحشوية</span>
+          </div>
+          <div class="flex items-center gap-3 text-muted-light dark:text-muted-dark">
+            <span class="material-icons-outlined text-primary text-xl">check_circle</span>
+            <span data-i18n="index.hero.features.languageSupport">دعم العربية الفصحى واللهجات والإنجليزية</span>
+          </div>
+        </div>
+
+        <div class="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4">
+          <a class="w-full sm:w-auto bg-primary text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-blue-700 transition-all transform hover:scale-105 flex items-center justify-center gap-2"
+            href="#prototype">
+            <span class="material-icons-outlined">rocket_launch</span>
+            <span data-i18n="index.nav.tryPrototype">جرّب النموذج الأولي</span>
+          </a>
+          <a class="w-full sm:w-auto bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-700 text-text-light dark:text-text-dark font-bold py-3 px-8 rounded-lg text-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all transform hover:scale-105 flex items-center justify-center gap-2"
+            href="#how-it-works">
+            <span class="material-icons-outlined">help_outline</span>
+            <span data-i18n="index.nav.discoverHow">اكتشف كيف يعمل</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 bg-surface-light dark:bg-surface-dark" id="why-ilqaa">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h3 class="text-4xl font-bold" data-i18n="index.whyIlqaa.title">لماذا تختار إلقاء؟</h3>
+          <p class="mt-4 text-lg text-muted-light dark:text-muted-dark max-w-2xl mx-auto"
+            data-i18n="index.whyIlqaa.subtitle">
+            نقدم لك منصة متكاملة تجمع بين الدقة العلمية وأحدث تقنيات الذكاء الاصطناعي
+          </p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="bg-background-light dark:bg-background-dark p-8 rounded-lg text-center">
+            <span class="material-icons-outlined text-5xl text-primary mb-4">analytics</span>
+            <h4 class="text-2xl font-bold mb-2" data-i18n="index.whyIlqaa.comprehensiveAnalysis.title">تحليل شامل</h4>
+            <p class="text-muted-light dark:text-muted-dark"
+              data-i18n="index.whyIlqaa.comprehensiveAnalysis.description" data-i18n-html="true">
+              تقييم دقيق يشمل لغة الجسد، التواصل البصري، ونبرة الصوت، <strong>بالعربية الفصحى بدقة 100%</strong>.
+            </p>
+          </div>
+          <div class="bg-background-light dark:bg-background-dark p-8 rounded-lg text-center">
+            <span class="material-icons-outlined text-5xl text-primary mb-4">feedback</span>
+            <h4 class="text-2xl font-bold mb-2" data-i18n="index.whyIlqaa.instantFeedback.title">ملاحظات فورية</h4>
+            <p class="text-muted-light dark:text-muted-dark" data-i18n="index.whyIlqaa.instantFeedback.description"
+              data-i18n-html="true">
+              تقرير ذكي فوري يحدد نقاط القوة، نقاط التحسين، <strong>ويقترح تمارين مخصصة</strong> لك وحدك.
+            </p>
+          </div>
+          <div class="bg-background-light dark:bg-background-dark p-8 rounded-lg text-center">
+            <span class="material-icons-outlined text-5xl text-primary mb-4">psychology</span>
+            <h4 class="text-2xl font-bold mb-2" data-i18n="index.whyIlqaa.personalizedTraining.title">تدريب مخصص</h4>
+            <p class="text-muted-light dark:text-muted-dark" data-i18n="index.whyIlqaa.personalizedTraining.description"
+              data-i18n-html="true">
+              خطط تدريبية شخصية تستهدف تحسين <strong>الثقة في الجسد، والطلاقة اللغوية</strong>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20" id="how-it-works">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h3 class="text-4xl font-bold" data-i18n="index.howItWorks.title">كيف يعمل إلقاء؟</h3>
+          <p class="mt-4 text-lg text-muted-light dark:text-muted-dark max-w-2xl mx-auto"
+            data-i18n="index.howItWorks.subtitle">
+            بخطوات بسيطة، ابدأ رحلتك نحو الإتقان.
+          </p>
+        </div>
+        <div class="relative">
+          <div
+            class="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-gray-300 dark:bg-gray-700 -translate-y-1/2">
+          </div>
+          <div class="grid md:grid-cols-3 gap-12 relative">
+            <div class="flex flex-col items-center text-center">
+              <div class="relative mb-6">
+                <div
+                  class="w-20 h-20 rounded-full bg-primary text-white flex items-center justify-center text-3xl font-bold">
+                  1</div>
+              </div>
+              <h4 class="text-2xl font-bold mb-2" data-i18n="index.howItWorks.steps.record.title">سجّل</h4>
+              <p class="text-muted-light dark:text-muted-dark" data-i18n="index.howItWorks.steps.record.description">
+                سجّل خطابك أو عرضك التقديمي مباشرة عبر المنصة باستخدام كاميرا وميكروفون جهازك.
+              </p>
+            </div>
+            <div class="flex flex-col items-center text-center">
+              <div class="relative mb-6">
+                <div
+                  class="w-20 h-20 rounded-full bg-primary text-white flex items-center justify-center text-3xl font-bold">
+                  2</div>
+              </div>
+              <h4 class="text-2xl font-bold mb-2" data-i18n="index.howItWorks.steps.analyze.title">حلّل</h4>
+              <p class="text-muted-light dark:text-muted-dark" data-i18n="index.howItWorks.steps.analyze.description">
+                يقوم الذكاء الاصطناعي بتحليل أدائك فورًا، مقيّمًا جوانب متعددة مثل السرعة، والكلمات الحشوية، والتواصل
+                البصري.
+              </p>
+            </div>
+            <div class="flex flex-col items-center text-center">
+              <div class="relative mb-6">
+                <div
+                  class="w-20 h-20 rounded-full bg-primary text-white flex items-center justify-center text-3xl font-bold">
+                  3</div>
+              </div>
+              <h4 class="text-2xl font-bold mb-2" data-i18n="index.howItWorks.steps.improve.title">طوّر</h4>
+              <p class="text-muted-light dark:text-muted-dark" data-i18n="index.howItWorks.steps.improve.description">
+                استعرض تقاريرك المفصلة، واحصل على نصائح عملية، وكرر التدريب لتحقيق أفضل النتائج.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 bg-surface-light dark:bg-surface-dark" id="features">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h3 class="text-4xl font-bold" data-i18n="index.features.title">ميزات أساسية لمنصة إلقاء</h3>
+          <p class="mt-4 text-lg text-muted-light dark:text-muted-dark max-w-2xl mx-auto"
+            data-i18n="index.features.subtitle">
+            نظرة على بعض المقاييس التي يحللها نظامنا الذكي.
+          </p>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div class="bg-background-light dark:bg-background-dark p-6 rounded-lg flex items-start gap-4">
+            <span class="material-icons-outlined text-3xl text-primary mt-1">speed</span>
+            <div>
+              <h4 class="text-xl font-bold" data-i18n="index.features.speechAnalysis.title">تحليل الكلام</h4>
+              <p class="text-muted-light dark:text-muted-dark mt-1"
+                data-i18n="index.features.speechAnalysis.description">
+                تقييم سرعة الحديث، الكلمات الحشوية، تنوع المفردات والنبرة العاطفية.
+              </p>
+              <ul class="list-disc list-inside text-sm text-muted-light dark:text-muted-dark mt-2 space-y-1">
+                <li data-i18n="index.features.speechAnalysis.items.0">سرعة الحديث والإيقاع</li>
+                <li data-i18n="index.features.speechAnalysis.items.1">الكلمات الحشوية والمكررة</li>
+                <li data-i18n="index.features.speechAnalysis.items.2">التوقفات والتنفس</li>
+              </ul>
+            </div>
+          </div>
+          <div class="bg-background-light dark:bg-background-dark p-6 rounded-lg flex items-start gap-4">
+            <span class="material-icons-outlined text-3xl text-primary mt-1">visibility</span>
+            <div>
+              <h4 class="text-xl font-bold" data-i18n="index.features.eyeContact.title">التواصل البصري</h4>
+              <p class="text-muted-light dark:text-muted-dark mt-1" data-i18n="index.features.eyeContact.description">
+                قياس مدى الحفاظ على التواصل بالعين مع الجمهور الافتراضي.
+              </p>
+              <ul class="list-disc list-inside text-sm text-muted-light dark:text-muted-dark mt-2 space-y-1">
+                <li data-i18n="index.features.eyeContact.items.0">نسبة النظر للكاميرا</li>
+                <li data-i18n="index.features.eyeContact.items.1">قياس التشتت البصري</li>
+                <li data-i18n="index.features.eyeContact.items.2">توزيع التركيز على الجمهور الافتراضي</li>
+              </ul>
+            </div>
+          </div>
+          <div class="bg-background-light dark:bg-background-dark p-6 rounded-lg flex items-start gap-4">
+            <span class="material-icons-outlined text-3xl text-primary mt-1">emoji_emotions</span>
+            <div>
+              <h4 class="text-xl font-bold" data-i18n="index.features.facialExpressions.title">تعبيرات الوجه</h4>
+              <p class="text-muted-light dark:text-muted-dark mt-1"
+                data-i18n="index.features.facialExpressions.description">
+                تحليل المشاعر الظاهرة على وجهك ومدى ملاءمتها لمحتوى حديثك.
+              </p>
+            </div>
+          </div>
+          <div class="bg-background-light dark:bg-background-dark p-6 rounded-lg flex items-start gap-4">
+            <span class="material-icons-outlined text-3xl text-primary mt-1">waving_hand</span>
+            <div>
+              <h4 class="text-xl font-bold" data-i18n="index.features.handGestures.title">إيماءات اليد</h4>
+              <p class="text-muted-light dark:text-muted-dark mt-1" data-i18n="index.features.handGestures.description">
+                مراقبة حركة اليدين لضمان استخدامها بفعالية لدعم رسالتك.
+              </p>
+            </div>
+          </div>
+          <div class="bg-background-light dark:bg-background-dark p-6 rounded-lg flex items-start gap-4">
+            <span class="material-icons-outlined text-3xl text-primary mt-1">accessibility_new</span>
+            <div>
+              <h4 class="text-xl font-bold" data-i18n="index.features.bodyLanguage.title">الوقفة ولغة الجسد</h4>
+              <p class="text-muted-light dark:text-muted-dark mt-1" data-i18n="index.features.bodyLanguage.description">
+                تقييم استقامة الوقفة وثباتها لتعزيز الثقة والإيجابية.
+              </p>
+              <ul class="list-disc list-inside text-sm text-muted-light dark:text-muted-dark mt-2 space-y-1">
+                <li data-i18n="index.features.bodyLanguage.items.0">حركة اليدين والإيماءات</li>
+                <li data-i18n="index.features.bodyLanguage.items.1">وضعية الوقوف وثباتها</li>
+                <li data-i18n="index.features.bodyLanguage.items.2">ثقة الحضور والحركة</li>
+              </ul>
+            </div>
+          </div>
+          <div class="bg-background-light dark:bg-background-dark p-6 rounded-lg flex items-start gap-4">
+            <span class="material-icons-outlined text-3xl text-primary mt-1">graphic_eq</span>
+            <div>
+              <h4 class="text-xl font-bold" data-i18n="index.features.voiceLevel.title">مستوى الصوت</h4>
+              <p class="text-muted-light dark:text-muted-dark mt-1" data-i18n="index.features.voiceLevel.description">
+                تحليل وضوح الصوت وقوته لضمان وصوله إلى كامل الجمهور.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Language Support Box -->
+        <div class="mt-12 bg-primary/10 border border-primary/20 rounded-lg p-6 max-w-2xl mx-auto text-center">
+          <h4 class="text-xl font-bold text-primary mb-3" data-i18n="index.features.languageSupport.title">القوة اللغوية
+            للمنصة</h4>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+            <div class="bg-white dark:bg-surface-dark rounded p-3">
+              <strong data-i18n="index.features.languageSupport.languages.modernArabic.name">العربية الفصحى</strong>
+              <div class="text-muted-light dark:text-muted-dark"
+                data-i18n="index.features.languageSupport.languages.modernArabic.accuracy">
+                دقة تحليل 100%
+              </div>
+            </div>
+            <div class="bg-white dark:bg-surface-dark rounded p-3">
+              <strong data-i18n="index.features.languageSupport.languages.dialects.name">اللهجات العربية</strong>
+              <div class="text-muted-light dark:text-muted-dark"
+                data-i18n="index.features.languageSupport.languages.dialects.accuracy">
+                دقة أعلى من 90%
+              </div>
+            </div>
+            <div class="bg-white dark:bg-surface-dark rounded p-3">
+              <strong data-i18n="index.features.languageSupport.languages.english.name">الإنجليزية</strong>
+              <div class="text-muted-light dark:text-muted-dark"
+                data-i18n="index.features.languageSupport.languages.english.accuracy">
+                تحليل شامل للصوت والوضوح
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20" id="audience">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h3 class="text-4xl font-bold" data-i18n="index.audience.title">مصمم خصيصًا لاحتياجاتك</h3>
+          <p class="mt-4 text-lg text-muted-light dark:text-muted-dark max-w-2xl mx-auto"
+            data-i18n="index.audience.subtitle">
+            تُخدم منصة إلقاء قطاعات متنوعة بتقنية واحدة.
+          </p>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+          <div
+            class="bg-surface-light dark:bg-surface-dark p-6 rounded-lg text-center hover:shadow-lg transition-shadow">
+            <span class="material-icons-outlined text-4xl text-primary mb-3">school</span>
+            <h4 class="font-bold text-lg" data-i18n="index.audience.categories.education.title">قطاع التعليم</h4>
+            <p class="text-sm text-muted-light dark:text-muted-dark mt-2"
+              data-i18n="index.audience.categories.education.description">الطلاب، الجامعات، المعلمون</p>
+          </div>
+          <div
+            class="bg-surface-light dark:bg-surface-dark p-6 rounded-lg text-center hover:shadow-lg transition-shadow">
+            <span class="material-icons-outlined text-4xl text-primary mb-3">rocket_launch</span>
+            <h4 class="font-bold text-lg" data-i18n="index.audience.categories.entrepreneurship.title">ريادة الأعمال
+            </h4>
+            <p class="text-sm text-muted-light dark:text-muted-dark mt-2"
+              data-i18n="index.audience.categories.entrepreneurship.description">الرواد، المسرعات، الحاضنات</p>
+          </div>
+          <div
+            class="bg-surface-light dark:bg-surface-dark p-6 rounded-lg text-center hover:shadow-lg transition-shadow">
+            <span class="material-icons-outlined text-4xl text-primary mb-3">ondemand_video</span>
+            <h4 class="font-bold text-lg" data-i18n="index.audience.categories.media.title">الإعلام والمحتوى</h4>
+            <p class="text-sm text-muted-light dark:text-muted-dark mt-2"
+              data-i18n="index.audience.categories.media.description">مذيعون، صناع محتوى، مؤثرون</p>
+          </div>
+          <div
+            class="bg-surface-light dark:bg-surface-dark p-6 rounded-lg text-center hover:shadow-lg transition-shadow">
+            <span class="material-icons-outlined text-4xl text-primary mb-3">business_center</span>
+            <h4 class="font-bold text-lg" data-i18n="index.audience.categories.corporate.title">القطاع الوظيفي</h4>
+            <p class="text-sm text-muted-light dark:text-muted-dark mt-2"
+              data-i18n="index.audience.categories.corporate.description">موظفون، مدراء، فرق الموارد البشرية</p>
+          </div>
+          <div
+            class="bg-surface-light dark:bg-surface-dark p-6 rounded-lg text-center hover:shadow-lg transition-shadow">
+            <span class="material-icons-outlined text-4xl text-primary mb-3">handshake</span>
+            <h4 class="font-bold text-lg" data-i18n="index.audience.categories.sales.title">قطاع المبيعات</h4>
+            <p class="text-sm text-muted-light dark:text-muted-dark mt-2"
+              data-i18n="index.audience.categories.sales.description">مندوبو المبيعات، مدراء الحسابات</p>
+          </div>
+          <div
+            class="bg-surface-light dark:bg-surface-dark p-6 rounded-lg text-center hover:shadow-lg transition-shadow">
+            <span class="material-icons-outlined text-4xl text-primary mb-3">account_balance</span>
+            <h4 class="font-bold text-lg" data-i18n="index.audience.categories.government.title">الجهات الحكومية</h4>
+            <p class="text-sm text-muted-light dark:text-muted-dark mt-2"
+              data-i18n="index.audience.categories.government.description">الناطقون الرسميون، برامج التواصل</p>
+          </div>
+          <div
+            class="bg-surface-light dark:bg-surface-dark p-6 rounded-lg text-center hover:shadow-lg transition-shadow">
+            <span class="material-icons-outlined text-4xl text-primary mb-3">temple_buddhist</span>
+            <h4 class="font-bold text-lg" data-i18n="index.audience.categories.cultural.title">المؤسسات الثقافية</h4>
+            <p class="text-sm text-muted-light dark:text-muted-dark mt-2"
+              data-i18n="index.audience.categories.cultural.description">خطباء، محاضرون، مراكز ثقافية</p>
+          </div>
+          <div
+            class="bg-surface-light dark:bg-surface-dark p-6 rounded-lg text-center hover:shadow-lg transition-shadow">
+            <span class="material-icons-outlined text-4xl text-primary mb-3">groups</span>
+            <h4 class="font-bold text-lg" data-i18n="index.audience.categories.everyone.title">الجميع</h4>
+            <p class="text-sm text-muted-light dark:text-muted-dark mt-2"
+              data-i18n="index.audience.categories.everyone.description">كل من يرغب في تطوير مهارات التواصل</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 bg-surface-light dark:bg-surface-dark" id="prototype">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h3 class="text-4xl font-bold" data-i18n="index.prototype.title">النموذج الأولي للمنصة (MVP)</h3>
+          <p class="mt-4 text-lg text-muted-light dark:text-muted-dark" data-i18n="index.prototype.subtitle">
+            شاهد واجهة التحليل الفوري التي ستساعدك على التطور.
+          </p>
+        </div>
+        <div class="bg-background-light dark:bg-background-dark p-4 sm:p-6 lg:p-8 rounded-lg shadow-2xl">
+          <img class="rounded-lg w-full h-auto object-cover border-2 border-gray-200 dark:border-gray-700"
+            src="/assets/ilqaa_sample_ar.png" data-i18n-src="index.prototype.imageSrc" alt="شخص يتحدث أمام كاميرا"
+            data-i18n="index.prototype.imageAlt" />
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20" id="roadmap">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h3 class="text-4xl font-bold" data-i18n="index.roadmap.title">خارطة طريق المستقبل</h3>
+          <p class="mt-4 text-lg text-muted-light dark:text-muted-dark" data-i18n="index.roadmap.subtitle">
+            خططنا الطموحة لتطوير المنصة وتقديم قيمة أكبر.
+          </p>
+        </div>
+
+        <!-- Mobile View (vertical timeline) -->
+        <div class="lg:hidden">
+          <div class="relative">
+            <!-- Timeline line - hidden on mobile, shown on desktop -->
+            <div
+              class="hidden lg:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-gray-300 dark:bg-gray-700 -translate-x-1/2">
+            </div>
+
+            <!-- Phase 1 -->
+            <div class="mb-12 relative">
+              <div class="flex items-center mb-4">
+                <div
+                  class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center text-xl font-bold mr-4 flex-shrink-0">
+                  1
+                </div>
+                <div class="flex-1">
+                  <p class="text-gray-500 dark:text-gray-400 text-sm" data-i18n="index.roadmap.phases.phase1.timeline">
+                    المرحلة 1 - Q4 2025
+                  </p>
+                  <h4 class="font-bold text-xl mt-1" data-i18n="index.roadmap.phases.phase1.title">إطلاق النسخة
+                    التجريبية (MVP)</h4>
+                </div>
+              </div>
+              <div
+                class="bg-surface-light dark:bg-surface-dark p-6 rounded-lg shadow-md border-r-4 border-primary ml-16">
+                <p class="text-muted-light dark:text-muted-dark mt-2"
+                  data-i18n="index.roadmap.phases.phase1.description">
+                  إتاحة النموذج الأولي للمستخدمين الأوائل وجمع الملاحظات الأولية.
+                </p>
+                <ul class="list-disc list-inside text-sm text-muted-light dark:text-muted-dark mt-2">
+                  <li data-i18n="index.roadmap.phases.phase1.items.0">النواة الأساسية: تحليل الصوت، الجسد، والتواصل
+                    البصري</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Phase 2 -->
+            <div class="mb-12 relative">
+              <div class="flex items-center mb-4">
+                <div
+                  class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center text-xl font-bold mr-4 flex-shrink-0">
+                  2
+                </div>
+                <div class="flex-1">
+                  <p class="text-gray-500 dark:text-gray-400 text-sm" data-i18n="index.roadmap.phases.phase2.timeline">
+                    المرحلة 2 - Q1 2026
+                  </p>
+                  <h4 class="font-bold text-xl mt-1" data-i18n="index.roadmap.phases.phase2.title">إطلاق الميزات
+                    المتقدمة</h4>
+                </div>
+              </div>
+              <div
+                class="bg-surface-light dark:bg-surface-dark p-6 rounded-lg shadow-md border-l-4 border-primary ml-16">
+                <p class="text-muted-light dark:text-muted-dark mt-2"
+                  data-i18n="index.roadmap.phases.phase2.description" data-i18n-html="true">
+                  إضافة <strong>مدرب النصوص الذكي (Script Coach)</strong> و<strong>محرر الملاحظات اللحظية (Deep
+                    Feedback)</strong>.
+                </p>
+              </div>
+            </div>
+
+            <!-- Phase 3 -->
+            <div class="relative">
+              <div class="flex items-center mb-4">
+                <div
+                  class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center text-xl font-bold mr-4 flex-shrink-0">
+                  3
+                </div>
+                <div class="flex-1">
+                  <p class="text-gray-500 dark:text-gray-400 text-sm" data-i18n="index.roadmap.phases.phase3.timeline">
+                    المرحلة 3 - Q3 2026
+                  </p>
+                  <h4 class="font-bold text-xl mt-1" data-i18n="index.roadmap.phases.phase3.title">إطلاق تجارب التدريب
+                    الثورية</h4>
+                </div>
+              </div>
+              <div
+                class="bg-surface-light dark:bg-surface-dark p-6 rounded-lg shadow-md border-r-4 border-primary ml-16">
+                <p class="text-muted-light dark:text-muted-dark mt-2"
+                  data-i18n="index.roadmap.phases.phase3.description" data-i18n-html="true">
+                  إطلاق <strong>الجمهور الافتراضي (VR Audience)</strong> والإصدارات المتخصصة للمقابلات وعروض المستثمرين.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Desktop View (original layout) -->
+        <div class="hidden lg:block">
+          <div class="relative">
+            <!-- Timeline line -->
+            <div class="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gray-300 dark:bg-gray-700 -translate-x-1/2"></div>
+
+            <!-- Phase 1 -->
+            <div class="flex items-center w-full mb-12">
+              <div class="w-1/2 flex justify-end pr-12">
+                <div
+                  class="w-11/12 bg-surface-light dark:bg-surface-dark p-6 rounded-lg shadow-md border-r-4 border-primary text-right">
+                  <p class="text-gray-500 dark:text-gray-400 text-sm" data-i18n="index.roadmap.phases.phase1.timeline">
+                    المرحلة 1 - Q4 2025
+                  </p>
+                  <h4 class="font-bold text-xl mt-1" data-i18n="index.roadmap.phases.phase1.title">إطلاق النسخة
+                    التجريبية (MVP)</h4>
+                  <p class="text-muted-light dark:text-muted-dark mt-2"
+                    data-i18n="index.roadmap.phases.phase1.description">
+                    إتاحة النموذج الأولي للمستخدمين الأوائل وجمع الملاحظات الأولية.
+                  </p>
+                  <ul class="list-disc list-inside text-sm text-muted-light dark:text-muted-dark mt-2">
+                    <li data-i18n="index.roadmap.phases.phase1.items.0">النواة الأساسية: تحليل الصوت، الجسد، والتواصل
+                      البصري</li>
+                  </ul>
+                </div>
+              </div>
+              <div
+                class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center text-xl font-bold mx-4 flex-shrink-0 z-10">
+                1
+              </div>
+              <div class="w-1/2"></div>
+            </div>
+
+            <!-- Phase 2 -->
+            <div class="flex items-center w-full mb-12">
+              <div class="w-1/2"></div>
+              <div
+                class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center text-xl font-bold mx-4 flex-shrink-0 z-10">
+                2
+              </div>
+              <div class="w-1/2 flex justify-start pl-12">
+                <div
+                  class="w-11/12 bg-surface-light dark:bg-surface-dark p-6 rounded-lg shadow-md border-l-4 border-primary text-left">
+                  <p class="text-gray-500 dark:text-gray-400 text-sm" data-i18n="index.roadmap.phases.phase2.timeline">
+                    المرحلة 2 - Q1 2026
+                  </p>
+                  <h4 class="font-bold text-xl mt-1" data-i18n="index.roadmap.phases.phase2.title">إطلاق الميزات
+                    المتقدمة</h4>
+                  <p class="text-muted-light dark:text-muted-dark mt-2"
+                    data-i18n="index.roadmap.phases.phase2.description" data-i18n-html="true">
+                    إضافة <strong>مدرب النصوص الذكي (Script Coach)</strong> و<strong>محرر الملاحظات اللحظية (Deep
+                      Feedback)</strong>.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Phase 3 -->
+            <div class="flex items-center w-full">
+              <div class="w-1/2 flex justify-end pr-12">
+                <div
+                  class="w-11/12 bg-surface-light dark:bg-surface-dark p-6 rounded-lg shadow-md border-r-4 border-primary text-right">
+                  <p class="text-gray-500 dark:text-gray-400 text-sm" data-i18n="index.roadmap.phases.phase3.timeline">
+                    المرحلة 3 - Q3 2026
+                  </p>
+                  <h4 class="font-bold text-xl mt-1" data-i18n="index.roadmap.phases.phase3.title">إطلاق تجارب التدريب
+                    الثورية</h4>
+                  <p class="text-muted-light dark:text-muted-dark mt-2"
+                    data-i18n="index.roadmap.phases.phase3.description" data-i18n-html="true">
+                    إطلاق <strong>الجمهور الافتراضي (VR Audience)</strong> والإصدارات المتخصصة للمقابلات وعروض
+                    المستثمرين.
+                  </p>
+                </div>
+              </div>
+              <div
+                class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center text-xl font-bold mx-4 flex-shrink-0 z-10">
+                3
+              </div>
+              <div class="w-1/2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-primary text-white rounded-lg p-12 text-center">
+          <h3 class="text-4xl font-bold" data-i18n="index.cta.title">هل أنت مستعد لتكون متحدثًا استثنائيًا؟</h3>
+          <p class="mt-4 text-lg max-w-2xl mx-auto opacity-90" data-i18n="index.cta.subtitle">
+            انضم إلى قائمة الانتظار وكن من أوائل من يختبرون منصة إلقاء عند إطلاقها.
+          </p>
+          <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <form class="max-w-md w-full flex flex-col sm:flex-row gap-4">
+              <input class="w-full px-4 py-3 rounded-md text-gray-900 focus:ring-2 focus:ring-white"
+                placeholder="أدخل بريدك الإلكتروني" data-i18n="index.cta.emailPlaceholder" type="email" />
+              <button
+                class="bg-white text-primary font-bold py-3 px-8 rounded-md hover:bg-gray-200 transition-colors whitespace-nowrap"
+                type="submit" data-i18n="index.cta.signUpButton">سجل اهتمامك</button>
+            </form>
+            <a href="mailto:info@ilqaa.ai"
+              class="bg-transparent border-2 border-white text-white font-bold py-3 px-8 rounded-md hover:bg-white hover:text-primary transition-colors whitespace-nowrap"
+              data-i18n="index.cta.demoRequest">
+              احجز عرضًا لجامعتك أو شركتك
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="bg-surface-light dark:bg-surface-dark border-t border-gray-200 dark:border-gray-800">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center text-muted-light dark:text-muted-dark">
+      <p data-i18n="index.footer.copyright" data-i18n-html="true">2025© إلقاء. جميع الحقوق محفوظة. |
+        <a href="mailto:info@ilqaa.ai" class="hover:text-primary transition-colors underline">
+          info@ilqaa.ai
+        </a>
+      </p>
+    </div>
+  </footer>
+</body>
+
+</html>

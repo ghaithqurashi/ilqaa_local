@@ -1,0 +1,6 @@
+{
+  "name": "ILQAA - Qatar National Speech & Oratory Platform",
+  "description": "Qatar National Oratory and Phonics Accelerator with live camera coaching, teleprompter, MoEHE national standard rubric analytics, talent scouting, and multi-role authentication.",
+  "requestFramePermissions": ["microphone", "camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

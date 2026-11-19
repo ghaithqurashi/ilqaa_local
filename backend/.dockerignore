@@ -1,0 +1,48 @@
+# .dockerignore
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.*
+*.env
+
+# Node modules (if any)
+node_modules/
+npm-debug.log*
+
+# Firebase
+firebase-debug.log
+.firebase/
+
+# Large data files
+*.mp3
+*.wav
+*.mp4

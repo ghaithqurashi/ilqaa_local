@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <link rel="icon" href="/assets/favicon.ico">
+  <title data-i18n="results.pageTitle">نتائج التحليل - إلقاء</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&amp;display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
+  <link href="/css/styles.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#3b82f6", // Blue for Start Session
+            success: "#22c55e", // Green for Results
+            "background-light": "#f3f4f6",
+            "background-dark": "#0f172a", // Dark slate/blue tone from image
+            "surface-light": "#ffffff",
+            "surface-dark": "#1e293b", // Lighter slate for panels
+            "text-light": "#1f2937",
+            "text-dark": "#e6edf3",
+            "muted-light": "#6b7280",
+            "muted-dark": "#8b949e",
+            "border-light": "#e5e7eb",
+            "border-dark": "#334155",
+            "data-green": "#2ECC71",
+            "data-amber": "#F1C40F",
+            "data-red": "#E74C3C",
+          },
+          fontFamily: {
+            display: ["Cairo", "sans-serif"],
+            "latin": ["Cairo", "sans-serif"],
+            "arabic": ["Cairo", "sans-serif"],
+            "amiri": ["Amiri", "serif"],
+            "scheherazade": ["'Scheherazade New'", "serif"],
+          },
+          borderRadius: {
+            DEFAULT: "0.5rem", // Changed from 0.75rem to match code.html
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "2xl": "1rem",
+            "full": "9999px"
+          },
+        },
+      },
+    };
+  </script>
+  <script type="module" src="js/firebase-auth.js"></script>
+  <script src="js/config.js"></script>
+  <script src="/js/theme-init.js"></script>
+  <script src="/js/language-switcher.js"></script>
+  <script src="/js/mobile-nav.js"></script>
+</head>
+
+<body
+  class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark font-display transition-colors duration-300">
+  <header class="sticky top-0 z-50 bg-surface-light/80 dark:bg-surface-dark/80 backdrop-blur-md shadow-sm">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center space-x-4 rtl:space-x-reverse">
+          <span class="material-icons-outlined text-primary text-2xl">campaign</span>
+          <a href="/" id="app-title"
+            class="text-xl font-bold text-text-light dark:text-text-dark hover:text-primary transition-colors"
+            data-i18n="common.appTitle">إلقاء</a>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <div class="hidden lg:flex items-center gap-2">
+            <a href="/coach"
+              class="bg-primary text-white font-bold py-2 px-5 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2 text-sm">
+              <span class="material-icons-outlined text-lg">add_circle</span>
+              <span data-i18n="coach.startSession">جلسة جديدة</span>
+            </a>
+
+            <button id="logout-btn"
+              class="flex size-10 items-center justify-center rounded-lg border border-gray-300 dark:border-gray-700 text-text-light dark:text-text-dark transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
+              onclick="logout()">
+              <span class="material-icons-outlined text-lg">logout</span>
+            </button>
+
+            <div class="relative" id="language-switcher">
+              <button id="language-toggle"
+                class="flex size-10 items-center justify-center rounded-lg border border-gray-300 dark:border-gray-700 text-text-light dark:text-text-dark transition-colors hover:bg-gray-100 dark:hover:bg-gray-800">
+                <span class="material-icons-outlined text-lg">language</span>
+              </button>
+              <div id="language-menu"
+                class="absolute rtl:right-0 ltr:left-0 top-12 hidden bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-700 rounded-lg p-2 min-w-32 z-50 shadow-lg">
+                <button data-lang="en"
+                  class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded hover:bg-gray-100 dark:hover:bg-gray-800">
+                  <span data-i18n="common.english">English</span>
+                </button>
+                <button data-lang="ar"
+                  class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded hover:bg-gray-100 dark:hover:bg-gray-800">
+                  <span data-i18n="common.arabic">العربية</span>
+                </button>
+              </div>
+            </div>
+
+            <button id="theme-toggle"
+              class="flex size-10 items-center justify-center rounded-lg border border-gray-300 dark:border-gray-700 text-text-light dark:text-text-dark transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
+              onclick="window.toggleTheme()">
+              <span class="material-icons-outlined text-lg">light_mode</span>
+            </button>
+
+          </div>
+
+          <div class="lg:hidden relative" id="mobile-actions">
+            <button id="mobile-actions-toggle"
+              class="flex size-10 items-center justify-center rounded-lg border border-gray-300 dark:border-gray-700 text-text-light dark:text-text-dark transition-colors hover:bg-gray-100 dark:hover:bg-gray-800">
+              <span class="material-icons-outlined text-lg">more_vert</span>
+            </button>
+            <div id="mobile-actions-menu"
+              class="absolute rtl:left-0 ltr:right-0 top-12 mt-2 hidden bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-700 rounded-lg p-2 min-w-48 z-50 shadow-lg space-y-1">
+
+              <div>
+                <div class="px-3 py-2 text-xs text-muted-light dark:text-muted-dark" data-i18n="common.language">اللغة
+                </div>
+                <button data-lang="ar"
+                  class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded hover:bg-gray-100 dark:hover:bg-gray-800">
+                  <span class="w-6 text-center">🇸🇦</span>
+                  <span data-i18n="common.arabic">العربية</span>
+                </button>
+                <button data-lang="en"
+                  class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded hover:bg-gray-100 dark:hover:bg-gray-800">
+                  <span class="w-6 text-center">🇬🇧</span>
+                  <span data-i18n="common.english">English</span>
+                </button>
+              </div>
+
+              <div class="border-t border-gray-200 dark:border-gray-700 pt-1">
+                <button id="mobile-theme-toggle"
+                  class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded hover:bg-gray-100 dark:hover:bg-gray-800">
+                  <span class="material-icons-outlined text-lg">light_mode</span>
+                  <span data-i18n="common.switchTheme">تبديل السمة</span>
+                </button>
+              </div>
+
+              <div class="border-t border-gray-200 dark:border-gray-700 pt-1">
+                <a href="/coach"
+                  class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded hover:bg-gray-100 dark:hover:bg-gray-800">
+                  <span class="material-icons-outlined text-lg">add_circle</span>
+                  <span data-i18n="coach.startSession">جلسة جديدة</span>
+                </a>
+
+                <button id="mobile-logout-btn"
+                  class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded hover:bg-gray-100 dark:hover:bg-gray-800">
+                  <span class="material-icons-outlined text-lg">logout</span>
+                  <span data-i18n="common.logout">تسجيل الخروج</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="mb-12">
+      <h2 class="text-4xl font-bold" id="session-title" data-i18n="results.analysisTitle">تحليل الأداء</h2>
+      <p class="text-muted-light dark:text-muted-dark mt-2 text-lg" id="session-details"
+        data-i18n="results.loadingResults">جاري تحميل النتائج...</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12" id="score-cards">
+      </div>
+
+    <div class="bg-surface-light dark:bg-surface-dark p-8 rounded-lg border border-gray-300 dark:border-gray-800"
+      id="ai-analysis-section">
+      <div class="flex items-center gap-4 mb-8">
+        <span class="material-icons-outlined text-primary text-3xl">psychology</span>
+        <h3 class="text-3xl font-bold" data-i18n="results.aiAnalysis">تحليل الذكاء الاصطناعي</h3>
+      </div>
+      <div class="space-y-10" id="ai-analysis-content">
+        </div>
+    </div>
+  </main>
+
+  <footer class="bg-surface-light dark:bg-surface-dark border-t border-gray-300 dark:border-gray-800 mt-12">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center text-muted-light dark:text-muted-dark">
+      <p data-i18n="index.footer.copyright">2025© إلقاء. جميع الحقوق محفوظة.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Configuration for scoring
+    const SCORE_WEIGHTS = {
+      audio: {
+        wpm: 0.3,
+        fillers: 0.3,
+        vocabulary: 0.2,
+        sentiment: 0.2
+      },
+      visual: {
+        eye_contact: 0.3,
+        posture: 0.25,
+        gestures: 0.25,
+        facial_expression: 0.2
+      }
+    };
+
+    // Performance labels
+    const PERFORMANCE_LABELS = {
+      excellent: 'excellent',
+      very_good: 'very_good',
+      good: 'good',
+      needs_improvement: 'needs_improvement'
+    };
+
+    // Helper function to get performance label KEY
+    function getPerformanceLabelKey(score) {
+      if (score >= 90) return PERFORMANCE_LABELS.excellent;
+      if (score >= 80) return PERFORMANCE_LABELS.very_good;
+      if (score >= 70) return PERFORMANCE_LABELS.good;
+      return PERFORMANCE_LABELS.needs_improvement;
+    }
+
+    // Track LLM responses
+    let llmResponses = {
+      audioSummary: null,
+      visualSummary: null,
+      audioAnalysis: null,
+      visualAnalysis: null,
+      summary: null,
+      recommendations: null,
+      actionItems: null
+    };
+
+    // Theme toggle function
+    function toggleTheme() {
+      const htmlElement = document.documentElement;
+      const isDark = htmlElement.classList.contains('dark');
+      const themeIcon = document.querySelector('#theme-toggle .material-icons-outlined');
+
+      if (isDark) {
+        htmlElement.classList.remove('dark');
+        if (themeIcon) themeIcon.textContent = 'dark_mode';
+        localStorage.setItem('theme', 'light');
+      } else {
+        htmlElement.classList.add('dark');
+        if (themeIcon) themeIcon.textContent = 'light_mode';
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+
+    // Refresh translations helper
+    function refreshTranslations() {
+      if (window.LanguageSwitcher && window.LanguageSwitcher.getCurrentLanguage) {
+        // Re-setting the current language forces an updatePage() call
+        window.LanguageSwitcher.setLanguage(window.LanguageSwitcher.getCurrentLanguage());
+      }
+    }
+
+    // Load and display results when page loads
+    document.addEventListener('DOMContentLoaded', function () {
+      window.initializeThemeUI();
+
+      // Wait for language switcher to be ready
+      function waitForLanguageSwitcher() {
+        if (window.LanguageSwitcher && window.LanguageSwitcher.getCurrentLanguage) {
+          console.log('✅ Language switcher is ready, loading results...');
+          loadAndDisplayResults();
+        } else {
+          console.log('⏳ Waiting for language switcher...');
+          setTimeout(waitForLanguageSwitcher, 100);
+        }
+      }
+
+      // Start waiting
+      waitForLanguageSwitcher();
+    });
+
+    function loadAndDisplayResults() {
+      const sessionData = JSON.parse(sessionStorage.getItem('sessionResults') || '{}');
+
+      if (!sessionData.audio || !sessionData.visual) {
+        // Use translated error message
+        const errorMessage = window.LanguageSwitcher.getTranslation('results.noSessionData') ||
+          'لم يتم العثور على بيانات الجلسة. يرجى العودة وبدء جلسة جديدة.';
+        displayError(errorMessage);
+        return;
+      }
+
+      // Calculate scores
+      const audioScore = calculateAudioScore(sessionData.audio.summary);
+      const visualScore = calculateVisualScore(sessionData.visual.summary);
+
+      // Update session info
+      updateSessionInfo(sessionData);
+
+      // Display score cards initially with loading states
+      displayScoreCardsWithLoading(audioScore, visualScore, sessionData);
+
+      // Start LLM analysis with staggered requests
+      startStaggeredLLMAnalysis(sessionData, audioScore, visualScore);
+
+      // Trigger translation refresh for newly added elements
+      refreshTranslations();
+    }
+
+    function calculateAudioScore(summary) {
+      let score = 0;
+
+      console.log("🔍 Audio score calculation from:", {
+        language: summary.language,
+        wpm: summary.wpm,
+        overall_wpm: summary.overall_wpm,
+        total_words: summary.total_words,
+        total_fillers: summary.total_fillers,
+        vocab_diversity: summary.vocab_diversity,
+        sentiment_score: summary.sentiment_score
+      });
+
+      // 1. WPM Scoring - Different ideal ranges for Arabic vs English
+      const wpmValue = summary.overall_wpm || summary.wpm || summary.session_wpm || 0;
+      const isArabic = (summary.language || '').toLowerCase() === 'ar';
+
+      // Initialize wpmScore with a default value
+      let wpmScore = 40; // Default if no speech detected
+
+      if (wpmValue > 0) {
+        if (isArabic) {
+          // Arabic ideal range: 80-140 WPM
+          const arabicIdealCenter = 110;
+
+          if (wpmValue >= 80 && wpmValue <= 140) {
+            // In ideal range: full points with slight adjustment
+            wpmScore = 95 - Math.abs(wpmValue - arabicIdealCenter) * 0.17;
+          } else if (wpmValue < 80) {
+            // Too slow for Arabic
+            wpmScore = Math.max(30, 50 + (wpmValue - 50) * 0.67);
+          } else {
+            // Too fast for Arabic
+            wpmScore = Math.max(30, 90 - (wpmValue - 140) * 0.6);
+          }
+        } else {
+          // English ideal range: 120-160 WPM
+          const englishIdealCenter = 140;
+
+          if (wpmValue >= 120 && wpmValue <= 160) {
+            // In ideal range
+            wpmScore = 95 - Math.abs(wpmValue - englishIdealCenter) * 0.125;
+          } else if (wpmValue < 120) {
+            // Too slow for English
+            wpmScore = Math.max(30, 40 + (wpmValue - 80) * 0.75);
+          } else {
+            // Too fast for English
+            wpmScore = Math.max(30, 90 - (wpmValue - 160) * 0.5);
+          }
+        }
+
+        wpmScore = Math.max(0, Math.min(100, wpmScore));
+        console.log(`📊 ${isArabic ? 'Arabic' : 'English'} WPM: ${wpmValue.toFixed(1)} → Score: ${wpmScore.toFixed(1)}`);
+      } else {
+        // No speech detected or very low WPM
+        console.log(`📊 No significant WPM detected, using default: ${wpmScore}`);
+      }
+
+      score += wpmScore * SCORE_WEIGHTS.audio.wpm;
+
+      // 2. Filler Words (30% weight) - Same for both languages
+      const fillerCount = summary.total_fillers || 0;
+      const totalWords = summary.total_words || 1;
+      const fillerRate = fillerCount / totalWords;
+
+      let fillerScore;
+      if (fillerCount === 0) {
+        fillerScore = 100; // Perfect - no filler words
+      } else if (fillerRate < 0.02) { // <2% filler rate
+        fillerScore = 90;
+      } else if (fillerRate < 0.05) { // <5% filler rate
+        fillerScore = 80;
+      } else if (fillerRate < 0.08) { // <8% filler rate
+        fillerScore = 70;
+      } else if (fillerRate < 0.12) { // <12% filler rate
+        fillerScore = 50;
+      } else {
+        fillerScore = Math.max(20, 100 - (fillerRate * 400));
+      }
+
+      console.log(`📊 Fillers: ${fillerCount}/${totalWords} (${(fillerRate * 100).toFixed(2)}%) → Score: ${fillerScore}`);
+      score += fillerScore * SCORE_WEIGHTS.audio.fillers;
+
+      // 3. Vocabulary Diversity (20% weight) - Same for both
+      const vocabDiversity = summary.vocab_diversity || 0;
+      const vocabScore = Math.min(100, vocabDiversity * 100);
+      console.log(`📊 Vocab Diversity: ${(vocabDiversity * 100).toFixed(1)}% → Score: ${vocabScore.toFixed(1)}`);
+      score += vocabScore * SCORE_WEIGHTS.audio.vocabulary;
+
+      // 4. Sentiment (20% weight) - Same for both
+      const sentimentValue = summary.sentiment_score !== undefined ? summary.sentiment_score : 0;
+      let sentimentScore;
+
+      // Convert -1 to +1 scale to 0-100 score
+      if (sentimentValue >= 0.3) {
+        sentimentScore = 95 + (sentimentValue * 16.7); // 100 at +0.3, 100 at +1.0
+      } else if (sentimentValue >= 0) {
+        sentimentScore = 70 + (sentimentValue * 83.3); // 70 at 0, 95 at +0.3
+      } else if (sentimentValue >= -0.3) {
+        sentimentScore = 70 + (sentimentValue * 100); // 70 at 0, 40 at -0.3
+      } else {
+        sentimentScore = 40 + (sentimentValue * 66.7); // 40 at -0.3, 20 at -1.0
+      }
+
+      sentimentScore = Math.max(20, Math.min(100, sentimentScore));
+      console.log(`📊 Sentiment: ${sentimentValue.toFixed(3)} → Score: ${sentimentScore.toFixed(1)}`);
+      score += sentimentScore * SCORE_WEIGHTS.audio.sentiment;
+
+      const finalScore = Math.max(0, Math.min(100, Math.round(score)));
+
+      // Detailed breakdown - NOW wpmScore is defined
+      console.log(`✅ Final Audio Score: ${finalScore}%`);
+      console.log(`📈 Breakdown: WPM(${wpmValue.toFixed(1)}):${Math.round(wpmScore * SCORE_WEIGHTS.audio.wpm)}`,
+        `Fillers:${Math.round(fillerScore * SCORE_WEIGHTS.audio.fillers)}`,
+        `Vocab:${Math.round(vocabScore * SCORE_WEIGHTS.audio.vocabulary)}`,
+        `Sentiment:${Math.round(sentimentScore * SCORE_WEIGHTS.audio.sentiment)}`);
+
+      return finalScore;
+    }
+
+    function calculateVisualScore(summary) {
+      let score = 0;
+
+      console.log("🔍 Visual score calculation from:", {
+        eye_contact: summary.eye_contact_percentage,
+        posture_quality: summary.posture_quality,
+        hand_gestures: summary.hand_gesture_count,
+        facial_expression: summary.facial_expression_score
+      });
+
+      // 1. Eye Contact (30%)
+      const eyeContact = summary.eye_contact_percentage || 0;
+      const eyeContactScore = eyeContact; // Direct mapping 0-100
+      console.log(`👁️ Eye Contact: ${eyeContact}% → Score: ${eyeContactScore}`);
+      score += eyeContactScore * SCORE_WEIGHTS.visual.eye_contact;
+
+      // 2. Posture Quality (25%)
+      const posture = summary.posture_quality || 0;
+      const postureScore = posture; // Direct mapping 0-100
+      console.log(`🧍 Posture: ${posture}% → Score: ${postureScore}`);
+      score += postureScore * SCORE_WEIGHTS.visual.posture;
+
+      // 3. Gestures (25%) - Ideal is moderate, not too many or too few
+      const gestures = summary.hand_gesture_count || 0;
+      let gestureScore;
+
+      // Based on typical per-minute rate
+      if (gestures === 0) {
+        gestureScore = 40; // No gestures at all
+      } else if (gestures < 5) {
+        gestureScore = 60 + (gestures * 8); // 60-100 for 0-5 gestures
+      } else if (gestures < 15) {
+        gestureScore = 85 + ((gestures - 5) * 1.5); // 85-100 for 5-15 gestures
+      } else if (gestures < 30) {
+        gestureScore = 100 - ((gestures - 15) * 1.33); // 100-80 for 15-30 gestures
+      } else {
+        gestureScore = Math.max(30, 80 - ((gestures - 30) * 1)); // 80-30 for 30-80 gestures
+      }
+
+      gestureScore = Math.max(20, Math.min(100, gestureScore));
+      console.log(`👋 Gestures: ${gestures} → Score: ${gestureScore}`);
+      score += gestureScore * SCORE_WEIGHTS.visual.gestures;
+
+      // 4. Facial Expression (20%)
+      const facialExpr = summary.facial_expression_score || 0;
+      const facialExprScore = facialExpr; // Direct mapping 0-100
+      console.log(`😊 Facial Expression: ${facialExpr}% → Score: ${facialExprScore}`);
+      score += facialExprScore * SCORE_WEIGHTS.visual.facial_expression;
+
+      const finalScore = Math.max(0, Math.min(100, Math.round(score)));
+
+      console.log(`✅ Final Visual Score: ${finalScore}%`);
+      console.log(`📈 Breakdown: Eye:${Math.round(eyeContactScore * SCORE_WEIGHTS.visual.eye_contact)}`,
+        `Posture:${Math.round(postureScore * SCORE_WEIGHTS.visual.posture)}`,
+        `Gestures:${Math.round(gestureScore * SCORE_WEIGHTS.visual.gestures)}`,
+        `Face:${Math.round(facialExprScore * SCORE_WEIGHTS.visual.facial_expression)}`);
+
+      return finalScore;
+    }
+
+    function getPerformanceLabel(score) {
+      if (score >= 90) return PERFORMANCE_LABELS.excellent;
+      if (score >= 80) return PERFORMANCE_LABELS.very_good;
+      if (score >= 70) return PERFORMANCE_LABELS.good;
+      return PERFORMANCE_LABELS.needs_improvement;
+    }
+
+    function getScoreColor(score) {
+      if (score >= 80) return "#10B981"; // Green for excellent
+      if (score >= 70) return "#F59E0B"; // Yellow/Orange for good
+      return "#EF4444"; // Red for needs improvement
+    }
+
+    function updateSessionInfo(sessionData) {
+      const title = document.getElementById('session-title');
+      const details = document.getElementById('session-details');
+
+      // Format date and duration
+      const date = new Date(sessionData.timestamp).toLocaleDateString('ar-EG');
+      const minutes = Math.floor(sessionData.duration / 60);
+      const seconds = Math.floor(sessionData.duration % 60);
+
+      // Get current language
+      const currentLang = window.LanguageSwitcher.getCurrentLanguage();
+
+      // Format duration based on language
+      let durationText;
+      if (currentLang === 'ar') {
+        // Convert to Eastern Arabic numerals for Arabic
+        const arabicDuration = `${convertToEasternNumerals(minutes)} دقائق و ${convertToEasternNumerals(seconds)} ثانية`;
+        durationText = arabicDuration;
+      } else {
+        durationText = `${minutes} minutes and ${seconds} seconds`;
+      }
+
+      const language = sessionData.language === 'ar' ?
+        (currentLang === 'ar' ? 'العربية' : 'Arabic') :
+        'English';
+
+      // Update title with localized format
+      // Note: Because this uses simple textContent, we try to fetch translation if available.
+      // Ideally this should also be data-i18n but it's dynamic text.
+      if (window.LanguageSwitcher && window.LanguageSwitcher.getTranslation) {
+        const transTitle = window.LanguageSwitcher.getTranslation('results.analysisTitle');
+        if (transTitle) title.textContent = transTitle;
+      }
+
+      // Build details text using translations
+      let sessionRecording = 'Recorded on';
+      let durationLabel = 'Duration';
+      let languageLabel = 'Language';
+      
+      if (window.LanguageSwitcher && window.LanguageSwitcher.getTranslation) {
+          sessionRecording = window.LanguageSwitcher.getTranslation('results.sessionRecording') || sessionRecording;
+          durationLabel = window.LanguageSwitcher.getTranslation('results.duration') || durationLabel;
+          languageLabel = window.LanguageSwitcher.getTranslation('results.language') || languageLabel;
+      }
+
+      details.textContent = `${sessionRecording} ${date} - ${durationLabel}: ${durationText} - ${languageLabel}: ${language}`;
+    }
+
+    function convertToEasternNumerals(number) {
+      // Convert Western Arabic numerals (0-9) to Eastern Arabic numerals
+      const easternNumerals = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+      return number.toString().replace(/\d/g, digit => easternNumerals[parseInt(digit)]);
+    }
+
+    function formatSessionTime(timestamp) {
+      const date = new Date(timestamp);
+
+      // The toLocaleTimeString with 'ar-EG' locale already uses Eastern Arabic numerals
+      return date.toLocaleTimeString('ar-EG', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true  // This will show ص/م for AM/PM in Arabic
+      });
+    }
+
+    function displayScoreCardsWithLoading(audioScore, visualScore, sessionData) {
+      const scoreCards = document.getElementById('score-cards');
+
+      // Get performance label KEYS for data-i18n
+      const audioLabelKey = `results.performanceLabels.${getPerformanceLabelKey(audioScore)}`;
+      const visualLabelKey = `results.performanceLabels.${getPerformanceLabelKey(visualScore)}`;
+
+      // Calculate stroke dashoffset for progress rings
+      const audioOffset = 282.6 * (1 - audioScore / 100);
+      const visualOffset = 282.6 * (1 - visualScore / 100);
+
+      // Get color based on score
+      const audioColor = getScoreColor(audioScore);
+      const visualColor = getScoreColor(visualScore);
+
+      // Use data-i18n instead of string interpolation for static labels
+      scoreCards.innerHTML = `
+    <div class="bg-surface-light dark:bg-surface-dark p-8 rounded-lg border border-gray-300 dark:border-gray-800" data-section="audio-card">
+      <h3 class="text-2xl font-bold mb-6 text-center text-primary dark:text-primary" data-i18n="results.audioEvaluation">Audio Evaluation</h3>
+      <div class="flex justify-center mb-6">
+        <div class="relative w-40 h-40">
+          <svg class="w-full h-full" viewBox="0 0 100 100">
+            <circle class="text-gray-300 dark:text-gray-700" cx="50" cy="50" fill="transparent" r="45" stroke="currentColor" stroke-width="10"></circle>
+            <circle class="progress-ring-circle" cx="50" cy="50" fill="transparent" r="45" stroke="${audioColor}" 
+                    stroke-dasharray="282.6" stroke-dashoffset="${audioOffset}" stroke-linecap="round" stroke-width="10"></circle>
+          </svg>
+          <div class="absolute inset-0 flex flex-col items-center justify-center">
+            <span class="text-4xl font-bold text-text-light dark:text-text-dark">${audioScore}%</span>
+            <span class="text-muted-light dark:text-muted-dark text-sm" data-i18n="${audioLabelKey}">Good</span>
+          </div>
+        </div>
+      </div>
+      <div class="text-center" data-loading="audio">
+        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary mx-auto mb-2"></div>
+        <p class="text-muted-light dark:text-muted-dark text-sm" data-i18n="results.analyzingAudio">Analyzing audio...</p>
+      </div>
+    </div>
+    
+    <div class="bg-surface-light dark:bg-surface-dark p-8 rounded-lg border border-gray-300 dark:border-gray-800" data-section="visual-card">
+      <h3 class="text-2xl font-bold mb-6 text-center text-primary dark:text-primary" data-i18n="results.visualEvaluation">Visual Evaluation</h3>
+      <div class="flex justify-center mb-6">
+        <div class="relative w-40 h-40">
+          <svg class="w-full h-full" viewBox="0 0 100 100">
+            <circle class="text-gray-300 dark:text-gray-700" cx="50" cy="50" fill="transparent" r="45" stroke="currentColor" stroke-width="10"></circle>
+            <circle class="progress-ring-circle" cx="50" cy="50" fill="transparent" r="45" stroke="${visualColor}" 
+                    stroke-dasharray="282.6" stroke-dashoffset="${visualOffset}" stroke-linecap="round" stroke-width="10"></circle>
+          </svg>
+          <div class="absolute inset-0 flex flex-col items-center justify-center">
+            <span class="text-4xl font-bold text-text-light dark:text-text-dark">${visualScore}%</span>
+            <span class="text-muted-light dark:text-muted-dark text-sm" data-i18n="${visualLabelKey}">Good</span>
+          </div>
+        </div>
+      </div>
+      <div class="text-center" data-loading="visual">
+        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary mx-auto mb-2"></div>
+        <p class="text-muted-light dark:text-muted-dark text-sm" data-i18n="results.analyzingVisual">Analyzing visual...</p>
+      </div>
+    </div>
+  `;
+    }
+
+    // STAGGERED LLM Analysis - Most reliable approach
+    async function startStaggeredLLMAnalysis(sessionData, audioScore, visualScore) {
+      console.log('🚀 Starting staggered LLM analysis...');
+
+      // Get current language for API calls
+      const currentLang = window.LanguageSwitcher.getCurrentLanguage();
+
+      // Initialize AI analysis section with loading states
+      initializeAIAnalysisWithLoading();
+      
+      // Trigger translation update for the newly added AI sections
+      refreshTranslations();
+
+      // Create all API call configurations in the desired order
+      const apiCalls = [
+        // 1. audio-summary
+        {
+          name: 'audioSummary',
+          endpoint: '/api/v1/analysis/audio-summary',
+          data: {
+            wpm: sessionData.audio.summary.wpm,
+            total_fillers: sessionData.audio.summary.total_fillers,
+            vocab_diversity: sessionData.audio.summary.vocab_diversity,
+            sentiment_label: sessionData.audio.summary.sentiment_label,
+            score: audioScore,
+            language: currentLang  // ADDED: Language parameter
+          },
+          fallback: {
+            audio_description: currentLang === 'ar' ?
+              "⚠️ تعذر تحليل الأداء الصوتي. يرجى المحاولة مرة أخرى." :
+              "⚠️ Could not analyze audio performance. Please try again."
+          }
+        },
+        // 2. visual-summary
+        {
+          name: 'visualSummary',
+          endpoint: '/api/v1/analysis/visual-summary',
+          data: {
+            eye_contact: sessionData.visual.summary.eye_contact_percentage,
+            posture_quality: sessionData.visual.summary.posture_quality,
+            hand_gestures: sessionData.visual.summary.hand_gesture_count,
+            facial_expression: sessionData.visual.summary.facial_expression_score,
+            score: visualScore,
+            language: currentLang  // ADDED: Language parameter
+          },
+          fallback: {
+            visual_description: currentLang === 'ar' ?
+              "⚠️ تعذر تحليل الأداء البصري. يرجى المحاولة مرة أخرى." :
+              "⚠️ Could not analyze visual performance. Please try again."
+          }
+        },
+        // 3. audio
+        {
+          name: 'audioAnalysis',
+          endpoint: '/api/v1/analysis/audio',
+          data: {
+            wpm: sessionData.audio.summary.wpm,
+            total_fillers: sessionData.audio.summary.total_fillers,
+            vocab_diversity: sessionData.audio.summary.vocab_diversity,
+            sentiment_label: sessionData.audio.summary.sentiment_label,
+            total_words: sessionData.audio.summary.total_words,
+            duration: sessionData.duration,
+            language: currentLang  // ADDED: Language parameter
+          },
+          fallback: {
+            audio_description: currentLang === 'ar' ?
+              "⚠️ تعذر الحصول على تحليل صوتي مفصل. يمكنك المحاولة مرة أخرى أو الاستمرار بالنتائج الأساسية." :
+              "⚠️ Could not get detailed audio analysis. You can try again or continue with basic results."
+          }
+        },
+        // 4. visual
+        {
+          name: 'visualAnalysis',
+          endpoint: '/api/v1/analysis/visual',
+          data: {
+            eye_contact: sessionData.visual.summary.eye_contact_percentage,
+            posture_quality: sessionData.visual.summary.posture_quality,
+            hand_gestures: sessionData.visual.summary.hand_gesture_count,
+            facial_expression: sessionData.visual.summary.facial_expression_score,
+            language: currentLang  // ADDED: Language parameter
+          },
+          fallback: {
+            visual_description: currentLang === 'ar' ?
+              "⚠️ تعذر الحصول على تحليل بصري مفصل. يمكنك المحاولة مرة أخرى أو الاستمرار بالنتائج الأساسية." :
+              "⚠️ Could not get detailed visual analysis. You can try again or continue with basic results."
+          }
+        },
+        // 5. summary
+        {
+          name: 'summary',
+          endpoint: '/api/v1/analysis/summary',
+          data: {
+            audio: {
+              wpm: sessionData.audio.summary.wpm,
+              total_fillers: sessionData.audio.summary.total_fillers,
+              vocab_diversity: sessionData.audio.summary.vocab_diversity,
+              sentiment_label: sessionData.audio.summary.sentiment_label,
+              total_words: sessionData.audio.summary.total_words
+            },
+            visual: {
+              eye_contact: sessionData.visual.summary.eye_contact_percentage,
+              posture_quality: sessionData.visual.summary.posture_quality,
+              hand_gestures: sessionData.visual.summary.hand_gesture_count,
+              facial_expression: sessionData.visual.summary.facial_expression_score
+            },
+            duration: sessionData.duration,
+            language: currentLang  // ADDED: Language parameter
+          },
+          fallback: {
+            summary: currentLang === 'ar' ?
+              "⚠️ تعذر تحميل الملخص الشامل. يمكنك رؤية التقييمات الأساسية أدناه." :
+              "⚠️ Could not load comprehensive summary. You can see basic evaluations below."
+          }
+        },
+        // 6. recommendations
+        {
+          name: 'recommendations',
+          endpoint: '/api/v1/analysis/recommendations',
+          data: {
+            audio: {
+              wpm: sessionData.audio.summary.wpm,
+              total_fillers: sessionData.audio.summary.total_fillers,
+              vocab_diversity: sessionData.audio.summary.vocab_diversity,
+              sentiment_label: sessionData.audio.summary.sentiment_label,
+              total_words: sessionData.audio.summary.total_words
+            },
+            visual: {
+              eye_contact: sessionData.visual.summary.eye_contact_percentage,
+              posture_quality: sessionData.visual.summary.posture_quality,
+              hand_gestures: sessionData.visual.summary.hand_gesture_count,
+              facial_expression: sessionData.visual.summary.facial_expression_score
+            },
+            duration: sessionData.duration,
+            language: currentLang  // ADDED: Language parameter
+          },
+          fallback: {
+            recommendations: currentLang === 'ar' ? [
+              "⚠️ تعذر تحميل التوصيات المخصصة. يمكنك العودة لاحقاً أو المحاولة مرة أخرى.",
+              "💡 راجع النتائج الأساسية للتعرف على نقاط القوة والضعف.",
+              "🔄 تحديث الصفحة قد يحل المشكلة أحياناً."
+            ] : [
+              "⚠️ Could not load custom recommendations. You can return later or try again.",
+              "💡 Review basic results to identify strengths and weaknesses.",
+              "🔄 Refreshing the page may solve the problem sometimes."
+            ]
+          }
+        },
+        // 7. action-items
+        {
+          name: 'actionItems',
+          endpoint: '/api/v1/analysis/action-items',
+          data: {
+            audio: {
+              wpm: sessionData.audio.summary.wpm,
+              total_fillers: sessionData.audio.summary.total_fillers,
+              vocab_diversity: sessionData.audio.summary.vocab_diversity,
+              sentiment_label: sessionData.audio.summary.sentiment_label,
+              total_words: sessionData.audio.summary.total_words
+            },
+            visual: {
+              eye_contact: sessionData.visual.summary.eye_contact_percentage,
+              posture_quality: sessionData.visual.summary.posture_quality,
+              hand_gestures: sessionData.visual.summary.hand_gesture_count,
+              facial_expression: sessionData.visual.summary.facial_expression_score
+            },
+            duration: sessionData.duration,
+            language: currentLang  // ADDED: Language parameter
+          },
+          fallback: {
+            action_items: currentLang === 'ar' ? [
+              "⚠️ تعذر تحميل خطوات التطوير المخصصة.",
+              "💡 يمكنك المحاولة مرة أخرى لاحقاً أو البدء بجلسة جديدة.",
+              "🔄 تحديث الصفحة قد يحل المشكلة."
+            ] : [
+              "⚠️ Could not load custom development steps.",
+              "💡 You can try again later or start a new session.",
+              "🔄 Refreshing the page may solve the problem."
+            ]
+          }
+        }
+      ];
+
+      // Group by priority to ensure critical ones start first
+      const priorityGroups = [
+        [0, 1], // audio-summary, visual-summary (score cards - highest priority)
+        [2, 3], // audio, visual (detailed analysis - medium priority)  
+        [4, 5, 6] // summary, recommendations, action-items (main content - lower priority)
+      ];
+
+      // Execute groups sequentially, but calls within groups in parallel
+      for (let groupIndex = 0; groupIndex < priorityGroups.length; groupIndex++) {
+        const groupIndices = priorityGroups[groupIndex];
+        const groupPromises = [];
+
+        // Start all calls in this group
+        for (const index of groupIndices) {
+          const config = apiCalls[index];
+          console.log(`▶️ Starting ${config.name} request (group: ${groupIndex + 1}, lang: ${currentLang})`);
+
+          const promise = makeApiCall(config.endpoint, config.data)
+            .then(response => {
+              console.log(`✅ ${config.name} completed successfully (group: ${groupIndex + 1})`);
+              llmResponses[config.name] = response;
+              updateUI(config.name, response, sessionData, audioScore, visualScore);
+              return response;
+            })
+            .catch(error => {
+              console.error(`❌ ${config.name} failed:`, error);
+              llmResponses[config.name] = config.fallback;
+              updateUI(config.name, config.fallback, sessionData, audioScore, visualScore);
+              return config.fallback;
+            });
+
+          groupPromises.push(promise);
+        }
+
+        // Wait for all calls in this group to complete before starting next group
+        await Promise.allSettled(groupPromises);
+
+        // Small delay between groups to ensure order
+        if (groupIndex < priorityGroups.length - 1) {
+          await new Promise(resolve => setTimeout(resolve, 100));
+        }
+      }
+
+      console.log('🎉 All LLM analysis completed!');
+    }
+
+    // Generic API call function with timeout
+    async function makeApiCall(endpoint, data) {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 120000); // 120 second timeout
+
+      try {
+        // Get the full URL using AppConfig
+        const fullUrl = window.AppConfig.getApiUrl(endpoint);
+
+        const response = await fetch(fullUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+          signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+          throw new Error(`API call failed with status: ${response.status}`);
+        }
+
+        return await response.json();
+      } catch (error) {
+        clearTimeout(timeoutId);
+        if (error.name === 'AbortError') {
+          throw new Error('Request timeout');
+        }
+        throw error;
+      }
+    }
+
+    function initializeAIAnalysisWithLoading() {
+      const aiContent = document.getElementById('ai-analysis-content');
+
+      // Use data-i18n tags instead of resolving variables
+      aiContent.innerHTML = `
+    <div data-section="detailed-analysis">
+      <h4 class="text-xl font-bold mb-4 text-text-light dark:text-text-dark" data-i18n="results.detailedAnalysis">Detailed Analysis</h4>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-background-light dark:bg-background-dark p-5 rounded-lg border border-gray-300 dark:border-gray-800" data-section="audio-analysis">
+          <div class="flex items-center gap-3" data-loading="audio-analysis">
+            <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
+            <h5 class="font-bold text-lg text-text-light dark:text-text-dark" data-i18n="results.audioAnalysis">Audio Evaluation</h5>
+          </div>
+          <p class="text-muted-light dark:text-muted-dark mt-2 text-sm" data-i18n="results.loadingResults">Loading...</p>
+        </div>
+        <div class="bg-background-light dark:bg-background-dark p-5 rounded-lg border border-gray-300 dark:border-gray-800" data-section="visual-analysis">
+          <div class="flex items-center gap-3" data-loading="visual-analysis">
+            <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
+            <h5 class="font-bold text-lg text-text-light dark:text-text-dark" data-i18n="results.visualAnalysis">Visual Evaluation</h5>
+          </div>
+          <p class="text-muted-light dark:text-muted-dark mt-2 text-sm" data-i18n="results.loadingResults">Loading...</p>
+        </div>
+      </div>
+    </div>  
+
+    <div data-section="summary">
+      <h4 class="text-xl font-bold mb-3 text-text-light dark:text-text-dark" data-i18n="results.performanceSummary">Performance Summary</h4>
+      <div class="flex items-center gap-3 py-4" data-loading="summary">
+        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+        <p class="text-muted-light dark:text-muted-dark" data-i18n="results.analyzingPerformance">Analyzing...</p>
+      </div>
+    </div>
+    
+    <div data-section="recommendations">
+      <h4 class="text-xl font-bold mb-4 text-text-light dark:text-text-dark" data-i18n="results.improvementTips">Improvement Recommendations</h4>
+      <div class="flex items-center gap-3 py-4" data-loading="recommendations">
+        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+        <p class="text-muted-light dark:text-muted-dark" data-i18n="results.preparingRecommendations">Preparing...</p>
+      </div>
+    </div>
+    
+    <div data-section="action-items">
+      <h4 class="text-xl font-bold mb-4 text-text-light dark:text-text-dark" data-i18n="results.developmentSteps">Action Items</h4>
+      <div class="flex items-center gap-3 py-4" data-loading="action-items">
+        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+        <p class="text-muted-light dark:text-muted-dark" data-i18n="results.preparingDevelopmentSteps">Preparing...</p>
+      </div>
+    </div>
+  `;
+    }
+
+    // Unified UI update function
+    function updateUI(section, analysis, sessionData, audioScore, visualScore) {
+      console.log(`🔄 Updating UI for: ${section}`);
+
+      switch (section) {
+        case 'audioSummary':
+          updateScoreCard('audioSummary', analysis, sessionData, audioScore, visualScore);
+          break;
+        case 'visualSummary':
+          updateScoreCard('visualSummary', analysis, sessionData, audioScore, visualScore);
+          break;
+        case 'audioAnalysis':
+          updateAIAnalysisSection('audioAnalysis', analysis, sessionData, audioScore, visualScore);
+          break;
+        case 'visualAnalysis':
+          updateAIAnalysisSection('visualAnalysis', analysis, sessionData, audioScore, visualScore);
+          break;
+        case 'summary':
+          updateAIAnalysisSection('summary', analysis, sessionData, audioScore, visualScore);
+          break;
+        case 'recommendations':
+          updateAIAnalysisSection('recommendations', analysis, sessionData, audioScore, visualScore);
+          break;
+        case 'actionItems':
+          updateAIAnalysisSection('actionItems', analysis, sessionData, audioScore, visualScore);
+          break;
+      }
+      
+      // Force translation update after injecting new content
+      refreshTranslations();
+    }
+
+    function updateScoreCard(section, analysis, sessionData, audioScore, visualScore) {
+      if (section === 'audioSummary' && analysis) {
+        const audioLoadingElement = document.querySelector('[data-loading="audio"]');
+        if (audioLoadingElement) {
+          audioLoadingElement.outerHTML = `<p class="text-center text-muted-dark">${analysis.audio_description}</p>`;
+          console.log('✅ Updated audio score card');
+        }
+      }
+
+      if (section === 'visualSummary' && analysis) {
+        const visualLoadingElement = document.querySelector('[data-loading="visual"]');
+        if (visualLoadingElement) {
+          visualLoadingElement.outerHTML = `<p class="text-center text-muted-dark">${analysis.visual_description}</p>`;
+          console.log('✅ Updated visual score card');
+        }
+      }
+    }
+
+    function updateAIAnalysisSection(section, analysis, sessionData, audioScore, visualScore) {
+      if (section === 'audioAnalysis') {
+        const audioAnalysisElement = document.querySelector('[data-section="audio-analysis"]');
+        if (audioAnalysisElement) {
+          audioAnalysisElement.outerHTML = `
+            <div class="bg-background-light dark:bg-background-dark p-5 rounded-lg border border-gray-300 dark:border-gray-800 flex items-start gap-4">
+              <span class="material-icons-outlined text-primary text-3xl">record_voice_over</span>
+              <div>
+                <h5 class="font-bold text-lg text-text-light dark:text-text-dark" data-i18n="results.audioAnalysis">Audio Evaluation</h5>
+                <p class="text-muted-light dark:text-muted-dark mt-1">${analysis.audio_description}</p>
+              </div>
+            </div>
+          `;
+          console.log('✅ Updated audio analysis section');
+        }
+      }
+
+      if (section === 'visualAnalysis') {
+        const visualAnalysisElement = document.querySelector('[data-section="visual-analysis"]');
+        if (visualAnalysisElement) {
+          visualAnalysisElement.outerHTML = `
+            <div class="bg-background-light dark:bg-background-dark p-5 rounded-lg border border-gray-300 dark:border-gray-800 flex items-start gap-4">
+                <span class="material-icons-outlined text-primary text-3xl">visibility</span>
+                <div>
+                    <h5 class="font-bold text-lg text-text-light dark:text-text-dark" data-i18n="results.visualAnalysis">Visual Evaluation</h5>
+                    <p class="text-muted-light dark:text-muted-dark mt-1">${analysis.visual_description}</p>
+                </div>
+            </div>
+            `;
+          console.log('✅ Updated visual analysis section');
+        }
+      }
+
+      if (section === 'summary' && analysis.summary) {
+        const summaryLoading = document.querySelector('[data-loading="summary"]');
+        if (summaryLoading) {
+          summaryLoading.outerHTML = `<p class="text-muted-dark leading-relaxed text-lg">${analysis.summary}</p>`;
+          console.log('✅ Updated summary section');
+        }
+      }
+
+      if (section === 'recommendations' && analysis.recommendations) {
+        const recommendationsLoading = document.querySelector('[data-loading="recommendations"]');
+        if (recommendationsLoading) {
+          const recommendationsArray = Array.isArray(analysis.recommendations) ? analysis.recommendations : [];
+
+          const recommendationsHTML = recommendationsArray.map(rec => `
+            <div class="bg-background-light dark:bg-background-dark p-5 rounded-lg border border-gray-300 dark:border-gray-800 flex items-start gap-4">
+              <span class="material-icons-outlined text-primary text-3xl">recommend</span>
+              <div>
+                <h5 class="font-bold text-lg text-text-light dark:text-text-dark" data-i18n="results.tip">Tip</h5>
+                <p class="text-muted-light dark:text-muted-dark mt-1">${rec}</p>
+              </div>
+            </div>
+          `).join('');
+
+          recommendationsLoading.outerHTML = `<div class="grid md:grid-cols-2 gap-6">${recommendationsHTML}</div>`;
+          console.log('✅ Updated recommendations section');
+        }
+      }
+
+      if (section === 'actionItems' && analysis.action_items) {
+        const actionItemsLoading = document.querySelector('[data-loading="action-items"]');
+        if (actionItemsLoading) {
+          const actionItemsArray = Array.isArray(analysis.action_items) ? analysis.action_items : [];
+
+          const actionItemsHTML = actionItemsArray.map((action, index) => `
+        <li class="flex items-start gap-3 text-lg">
+          <span class="material-icons-outlined text-primary text-2xl">task_alt</span>
+          <p class="text-muted-dark">${action}</p>
+        </li>
+      `).join('');
+
+          actionItemsLoading.outerHTML = `<ul class="space-y-3 list-inside">${actionItemsHTML}</ul>`;
+          console.log('✅ Updated action items section');
+        }
+      }
+    }
+
+    function displayError(message) {
+      const main = document.querySelector('main');
+
+      // Use the translated error message or fallback
+      // Note: For error states we can keep it simple or also move to data-i18n if needed
+      const loadingError = window.LanguageSwitcher.getTranslation('results.loadingError') || 'خطأ في تحميل النتائج';
+      const backToCoach = window.LanguageSwitcher.getTranslation('results.backToCoach') || 'العودة إلى المدرب';
+      const errorMessage = message || window.LanguageSwitcher.getTranslation('results.noSessionData') || 'لم يتم العثور على بيانات الجلسة. يرجى العودة وبدء جلسة جديدة.';
+
+      main.innerHTML = `
+        <div class="text-center py-12">
+          <span class="material-icons-outlined text-4xl text-data-red mb-4">error</span>
+          <h2 class="text-2xl font-bold text-white mb-4">${loadingError}</h2>
+          <p class="text-muted-dark text-lg mb-6">${errorMessage}</p>
+          <button onclick="window.location.href='/coach'" class="bg-primary hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold">
+            ${backToCoach}
+          </button>
+        </div>
+      `;
+    }
+  </script>
+
+  <script>
+    // Logout function
+    function logout() {
+      // Show confirmation in current language
+      const confirmMessage = window.LanguageSwitcher.getCurrentLanguage() === 'ar'
+        ? 'هل أنت متأكد من تسجيل الخروج؟'
+        : 'Are you sure you want to log out?';
+
+      if (confirm(confirmMessage)) {
+        localStorage.removeItem('ilqaa_token');
+        localStorage.removeItem('ilqaa_user');
+
+        if (typeof firebase !== 'undefined' && firebase.auth) {
+          firebase.auth().signOut().catch(() => { });
+        }
+
+        document.cookie = "ilqaa_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        window.location.href = '/login';
+      }
+    }
+
+    // Optional: Add user email display
+    document.addEventListener('DOMContentLoaded', function () {
+      const user = JSON.parse(localStorage.getItem('ilqaa_user') || '{}');
+      if (user.email) {
+        const userElement = document.getElementById('userEmail');
+        if (userElement) {
+          userElement.textContent = user.email;
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

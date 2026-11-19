@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Cairo:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-qatar-maroon: #8A1538;
+  --color-qatar-maroon-dark: #5C0E25;
+  --color-qatar-maroon-light: #B82A52;
+  --color-qatar-gold: #D4AF37;
+  --color-qatar-sand: #FBF8F2;
+  --font-serif: "Tajawal", "Amiri", "Cairo", serif;
+  --font-sans: "Tajawal", "Plus Jakarta Sans", "Cairo", ui-sans-serif, system-ui;
+}
+
+body {
+  background-color: #FAF8F5;
+  color: #0F172A;
+  font-family: var(--font-sans);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* =========================================================================
+   ROYAL QATARI NIGHT VISION (DARK MODE) COMPREHENSIVE STYLING
+   ========================================================================= */
+
+html.dark,
+body.dark {
+  color-scheme: dark;
+  background-color: #0A0306;
+  color: #F8FAFC;
+}
+
+/* Smooth text rendering for Arabic diacritics */
+* {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-serif {
+  font-family: "Tajawal", "Amiri", "Cairo", serif;
+}
+
+.font-sans {
+  font-family: "Tajawal", "Plus Jakarta Sans", "Cairo", sans-serif;
+}

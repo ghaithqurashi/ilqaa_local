@@ -1,0 +1,9 @@
+# Benchmark kit for NAMAA-Space/Cohere-Speech-Tashkeel-2B
+# Install into its own environment (see README.md):  pip install -U -r requirements.txt
+torch>=2.4
+transformers          # needs a recent release with CohereAsrForConditionalGeneration – keep it upgraded (-U)
+accelerate
+librosa
+soundfile
+sounddevice           # microphone recording (record.py)
+numpy

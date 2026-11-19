@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <link rel="icon" href="/assets/favicon.ico">
+  <title data-i18n="login.pageTitle">تسجيل الدخول - إلقاء</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&amp;display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
+  <link href="/css/styles.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#3b82f6", // Blue for Start Session
+            success: "#22c55e", // Green for Results
+            "background-light": "#f3f4f6",
+            "background-dark": "#0f172a", // Dark slate/blue tone from image
+            "surface-light": "#ffffff",
+            "surface-dark": "#1e293b", // Lighter slate for panels
+            "text-light": "#1f2937",
+            "text-dark": "#e6edf3",
+            "muted-light": "#6b7280",
+            "muted-dark": "#8b949e",
+            "border-light": "#e5e7eb",
+            "border-dark": "#334155",
+            "data-green": "#2ECC71",
+            "data-amber": "#F1C40F",
+            "data-red": "#E74C3C",
+          },
+          fontFamily: {
+            display: ["Cairo", "sans-serif"],
+            "latin": ["Cairo", "sans-serif"],
+            "arabic": ["Cairo", "sans-serif"],
+            "amiri": ["Amiri", "serif"],
+            "scheherazade": ["'Scheherazade New'", "serif"],
+          },
+          borderRadius: {
+            DEFAULT: "0.5rem", // Changed from 0.75rem to match code.html
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "2xl": "1rem",
+            "full": "9999px"
+          },
+        },
+      },
+    };
+  </script>
+  <script src="/js/config.js"></script>
+  <script src="/js/theme-init.js"></script>
+  <script src="/js/language-switcher.js"></script>
+  <script src="/js/mobile-nav.js"></script>
+  <script type="module" src="/js/firebase-auth.js"></script>
+</head>
+
+<body
+  class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark font-display transition-colors duration-300 min-h-screen flex flex-col">
+  <header class="sticky top-0 z-50 bg-surface-light/80 dark:bg-surface-dark/80 backdrop-blur-md shadow-sm">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center space-x-4 rtl:space-x-reverse">
+          <span class="material-icons-outlined text-primary text-2xl">campaign</span>
+          <a href="/" class="text-xl font-bold text-text-light dark:text-text-dark hover:text-primary transition-colors"
+            data-i18n="common.appTitle">إلقاء</a>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <div class="hidden lg:flex items-center gap-2">
+
+            <a href="/"
+              class="bg-primary text-white font-bold py-2 px-5 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2 text-sm">
+              <span class="material-icons-outlined text-lg">home</span>
+              <span data-i18n="login.backToHome">العودة للرئيسية</span>
+            </a>
+
+            <div class="relative" id="language-switcher">
+              <button id="language-toggle"
+                class="flex size-10 items-center justify-center rounded-lg border border-gray-300 dark:border-gray-700 text-text-light dark:text-text-dark transition-colors hover:bg-gray-100 dark:hover:bg-gray-800">
+                <span class="material-icons-outlined text-lg">language</span>
+              </button>
+              <div id="language-menu"
+                class="absolute rtl:right-0 ltr:left-0 top-12 hidden bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-700 rounded-lg p-2 min-w-32 z-50 shadow-lg">
+                <button data-lang="en"
+                  class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded hover:bg-gray-100 dark:hover:bg-gray-800">
+                  <span data-i18n="common.english">English</span>
+                </button>
+                <button data-lang="ar"
+                  class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded hover:bg-gray-100 dark:hover:bg-gray-800">
+                  <span data-i18n="common.arabic">العربية</span>
+                </button>
+              </div>
+            </div>
+
+            <button id="theme-toggle"
+              class="flex size-10 items-center justify-center rounded-lg border border-gray-300 dark:border-gray-700 text-text-light dark:text-text-dark transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
+              onclick="window.toggleTheme()">
+              <span class="material-icons-outlined text-lg">light_mode</span>
+            </button>
+
+          </div>
+
+          <div class="lg:hidden relative" id="mobile-actions">
+            <button id="mobile-actions-toggle"
+              class="flex size-10 items-center justify-center rounded-lg border border-gray-300 dark:border-gray-700 text-text-light dark:text-text-dark transition-colors hover:bg-gray-100 dark:hover:bg-gray-800">
+              <span class="material-icons-outlined text-lg">more_vert</span>
+            </button>
+            <div id="mobile-actions-menu"
+              class="absolute rtl:left-0 ltr:right-0 top-12 mt-2 hidden bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-700 rounded-lg p-2 min-w-48 z-50 shadow-lg space-y-1">
+
+              <div>
+                <div class="px-3 py-2 text-xs text-muted-light dark:text-muted-dark" data-i18n="common.language">اللغة
+                </div>
+                <button data-lang="ar"
+                  class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded hover:bg-gray-100 dark:hover:bg-gray-800">
+                  <span class="w-6 text-center">🇸🇦</span>
+                  <span data-i18n="common.arabic">العربية</span>
+                </button>
+                <button data-lang="en"
+                  class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded hover:bg-gray-100 dark:hover:bg-gray-800">
+                  <span class="w-6 text-center">🇬🇧</span>
+                  <span data-i18n="common.english">English</span>
+                </button>
+              </div>
+
+              <div class="border-t border-gray-200 dark:border-gray-700 pt-1">
+                <button id="mobile-theme-toggle"
+                  class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded hover:bg-gray-100 dark:hover:bg-gray-800">
+                  <span class="material-icons-outlined text-lg">light_mode</span>
+                  <span data-i18n="common.switchTheme">تبديل السمة</span>
+                </button>
+                <a href="/"
+                  class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded hover:bg-gray-100 dark:hover:bg-gray-800">
+                  <span class="material-icons-outlined text-lg">home</span>
+                  <span data-i18n="login.backToHome">العودة للرئيسية</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow flex items-center justify-center py-12">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-md mx-auto">
+        <div class="bg-surface-light dark:bg-surface-dark rounded-2xl shadow-xl p-8 sm:p-10">
+          <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-primary/10 rounded-full mb-4">
+              <span class="material-icons-outlined text-primary text-4xl">lock</span>
+            </div>
+            <h1 class="text-3xl font-bold" data-i18n="login.welcome">مرحباً بعودتك</h1>
+            <p class="text-muted-light dark:text-muted-dark mt-2" data-i18n="login.subtitle">
+              سجّل الدخول باستخدام حساب Google للوصول إلى منصة إلقاء
+            </p>
+          </div>
+
+          <div class="space-y-6">
+            <button id="googleSignInBtn"
+              class="w-full flex items-center justify-center gap-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-800 dark:text-gray-200 font-medium py-3 px-6 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
+              <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"
+                class="w-6 h-6">
+              <span data-i18n="login.loginButton">تسجيل الدخول باستخدام Google</span>
+            </button>
+
+            <div id="currentUserInfo"
+              class="hidden bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <span class="material-icons-outlined text-yellow-600 dark:text-yellow-400">info</span>
+                  <div>
+                    <p class="text-sm font-medium text-yellow-800 dark:text-yellow-300"
+                      data-i18n="login.currentlyLoggedIn">مسجّل دخول حاليًا بـ:</p>
+                    <p id="currentUserEmail" class="text-sm text-yellow-700 dark:text-yellow-400"></p>
+                  </div>
+                </div>
+                <button id="signOutBtn"
+                  class="text-sm text-yellow-700 dark:text-yellow-400 hover:text-yellow-900 dark:hover:text-yellow-300 underline"
+                  data-i18n="login.changeAccount">
+                  تغيير الحساب
+                </button>
+                <button id="continueBtn"
+                  class="text-sm text-yellow-700 dark:text-yellow-400 hover:text-yellow-900 dark:hover:text-yellow-300 underline mr-3"
+                  data-i18n="login.continue">
+                  المتابعة
+                </button>
+              </div>
+            </div>
+
+            <div id="statusMessage" class="hidden p-4 rounded-lg text-sm"></div>
+
+            <div id="loadingIndicator" class="hidden flex flex-col items-center justify-center space-y-3">
+              <div class="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+              <p class="text-muted-light dark:text-muted-dark" data-i18n="login.verifyingAccount">جاري التحقق من
+                الحساب...</p>
+            </div>
+          </div>
+
+          <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-800">
+            <div class="flex items-start gap-3 text-sm text-muted-light dark:text-muted-dark">
+              <span class="material-icons-outlined text-primary">info</span>
+              <div>
+                <p data-i18n="login.accessInfo">الوصول مقتصر على المستخدمين المسجلين مسبقاً. إذا لم تتمكن من الدخول،
+                  رجاءً تواصل مع المسؤول.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8 text-center">
+          <a href="/" class="inline-flex items-center gap-2 text-primary hover:text-blue-700 transition-colors">
+            <span class="material-icons-outlined">arrow_back</span>
+            <span data-i18n="login.backToHomePage">العودة إلى الصفحة الرئيسية</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-surface-light dark:bg-surface-dark border-t border-gray-200 dark:border-gray-800 py-6">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-muted-light dark:text-muted-dark">
+      <p data-i18n="index.footer.copyright" data-i18n-html="true">2025© إلقاء. جميع الحقوق محفوظة.</p>
+    </div>
+  </footer>
+
+  <script>
+    // DOM Elements
+    const googleSignInBtn = document.getElementById('googleSignInBtn');
+    const statusMessage = document.getElementById('statusMessage');
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    const currentUserInfo = document.getElementById('currentUserInfo');
+    const currentUserEmail = document.getElementById('currentUserEmail');
+    const signOutBtn = document.getElementById('signOutBtn');
+    const continueBtn = document.getElementById('continueBtn');
+
+    // Helper to get text safely (handles if LanguageSwitcher isn't loaded yet)
+    function getText(key, defaultText) {
+      if (window.LanguageSwitcher && window.LanguageSwitcher.getTranslation) {
+        return window.LanguageSwitcher.getTranslation(key) || defaultText;
+      }
+      return defaultText;
+    }
+
+    // Show message function
+    function showMessage(text, type = 'error') {
+      statusMessage.textContent = text;
+      statusMessage.className = `p-4 rounded-lg text-sm ${type === 'error' ? 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300' : 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300'}`;
+      statusMessage.classList.remove('hidden');
+
+      // Auto-hide success messages after 5 seconds
+      if (type === 'success') {
+        setTimeout(() => {
+          statusMessage.classList.add('hidden');
+        }, 5000);
+      }
+    }
+
+    // Show/hide loading
+    function setLoading(isLoading) {
+      if (isLoading) {
+        loadingIndicator.classList.remove('hidden');
+        if (googleSignInBtn) googleSignInBtn.disabled = true;
+        if (signOutBtn) signOutBtn.disabled = true;
+      } else {
+        loadingIndicator.classList.add('hidden');
+        if (googleSignInBtn) googleSignInBtn.disabled = false;
+        if (signOutBtn) signOutBtn.disabled = false;
+      }
+    }
+
+    // Handle Google Sign-in using the modular SDK
+    async function handleGoogleSignIn() {
+      if (!window.firebaseAuth) {
+        showMessage(getText('login.authNotReady', '❌ نظام المصادقة غير جاهز بعد'), 'error');
+        return;
+      }
+
+      try {
+        setLoading(true);
+        statusMessage.classList.add('hidden');
+
+        // Clear any local session data
+        localStorage.removeItem('ilqaa_token');
+        localStorage.removeItem('ilqaa_user');
+
+        console.log('🔐 Step 1: Starting Google login...');
+
+        // Login with Google using modular SDK
+        const result = await window.firebaseAuth.loginWithGoogle();
+
+        if (!result.success) {
+          throw new Error(result.error || 'Login failed');
+        }
+
+        console.log('✅ Step 1: Firebase login successful:', result.user.email);
+
+        // DEBUG: Check the token
+        console.log('🔍 Debugging token...');
+        await window.firebaseAuth.debugToken();
+
+        console.log('🔐 Step 2: Starting backend verification...');
+        // Verify with backend
+        const verification = await window.firebaseAuth.verifyUserWithBackend();
+        console.log('🔐 Verification result:', verification);
+
+        if (verification.allowed) {
+          console.log('✅ Step 3: User is allowed, getting token...');
+
+          // Store session token if available
+          if (verification.sessionToken) {
+            localStorage.setItem('ilqaa_token', verification.sessionToken);
+            localStorage.setItem('ilqaa_session_token', verification.sessionToken);
+            console.log('✅ Session token stored');
+          }
+
+          // Store user info from verification data
+          const userInfo = verification.user || verification.loginData?.user;
+          if (userInfo) {
+            localStorage.setItem('ilqaa_user', JSON.stringify({
+              email: userInfo.email || result.user.email,
+              uid: userInfo.uid || result.user.uid,
+              name: userInfo.name || result.user.displayName,
+              picture: userInfo.picture || '',
+              email_verified: userInfo.email_verified || false
+            }));
+            console.log('✅ User info stored');
+          }
+
+          // Also store Firebase token for API calls if needed
+          const firebaseToken = await window.firebaseAuth.getIdToken();
+          if (firebaseToken) {
+            localStorage.setItem('ilqaa_firebase_token', firebaseToken);
+          }
+
+          showMessage(getText('login.successMessage', '✅ تم تسجيل الدخول بنجاح! جاري التوجيه...'), 'success');
+
+          // Redirect to coach page
+          setTimeout(() => {
+            window.location.href = '/coach';
+          }, 1000);
+
+        } else {
+          // User not allowed
+          console.log('❌ User not allowed. Verification details:', verification);
+
+          // Show the actual error from backend or generic localized error
+          const errorReason = verification.reason || verification.error || getText('login.contactAdmin', 'يرجى التواصل مع المسؤول');
+          const notAuthText = getText('login.notAuthorized', '❌ غير مصرح بالدخول');
+          showMessage(`${notAuthText}: ${errorReason}`, 'error');
+
+          // Give user time to see the message before logging out
+          setTimeout(async () => {
+            try {
+              console.log('🔄 Logging out after denial...');
+              await window.firebaseAuth.logout();
+              console.log('✅ Logged out after denial');
+            } catch (logoutError) {
+              console.warn('Logout after denial failed:', logoutError);
+            }
+          }, 5000);
+        }
+
+      } catch (error) {
+        console.error('❌ Login process error:', error);
+        console.error('❌ Error stack:', error.stack);
+
+        // Show specific error messages
+        let errorMsg = error.message || getText('login.generalError', 'حدث خطأ أثناء تسجيل الدخول');
+
+        if (error.message.includes('popup-blocked')) {
+          errorMsg = getText('login.popupBlocked', 'تم حجب نافذة التسجيل. يرجى السماح بالنوافذ المنبثقة لهذا الموقع.');
+        } else if (error.message.includes('cancelled')) {
+          errorMsg = getText('login.cancelled', 'تم إلغاء عملية التسجيل.');
+        }
+
+        showMessage(`❌ ${errorMsg}`, 'error');
+
+        // Clear any partial session data
+        localStorage.removeItem('ilqaa_token');
+        localStorage.removeItem('ilqaa_user');
+
+      } finally {
+        console.log('🔚 Login process completed');
+        setLoading(false);
+      }
+    }
+
+    // Add this debugging code to track logout calls
+    const originalLogout = window.firebaseAuth ? window.firebaseAuth.logout : null;
+
+    if (originalLogout) {
+      window.firebaseAuth.logout = async function () {
+        console.log('🔄 Logout called from:', new Error().stack);
+        console.log('🔄 Current user before logout:', this.getCurrentUser()?.email);
+        return originalLogout.call(this);
+      };
+    }
+
+    // Monitor all logout attempts
+    window.addEventListener('unhandledrejection', event => {
+      console.error('❌ Unhandled Promise Rejection:', event.reason);
+      console.error('❌ Promise rejection stack:', event.reason?.stack);
+    });
+
+    window.addEventListener('error', event => {
+      console.error('❌ Global error:', event.error);
+      console.error('❌ Error stack:', event.error?.stack);
+    });
+
+    let isLoggingOut = false;
+
+    // Handle sign out
+    async function handleSignOut() {
+      if (isLoggingOut) return;
+      try {
+        isLoggingOut = true;
+        setLoading(true);
+
+        if (window.firebaseAuth) {
+          await window.firebaseAuth.logout();
+        }
+
+        // Clear local storage
+        localStorage.removeItem('ilqaa_token');
+        localStorage.removeItem('ilqaa_user');
+
+        // Hide user info
+        currentUserInfo.classList.add('hidden');
+
+        showMessage(getText('login.logoutSuccess', '✅ تم تسجيل الخروج'), 'success');
+
+      } catch (error) {
+        console.error('Sign out error:', error);
+        showMessage(getText('login.logoutCompleted', 'تم تسجيل الخروج'), 'info');
+      } finally {
+        setLoading(false);
+        isLoggingOut = false;
+      }
+    }
+
+    // Update UI based on current user
+    function updateUIForCurrentUser(user) {
+      if (user && user.email) {
+        // Show current user info
+        currentUserEmail.textContent = user.email;
+        currentUserInfo.classList.remove('hidden');
+
+        // Update button text to "Sign in with different account"
+        if (googleSignInBtn) {
+          const signInDiffText = getText('login.signInDifferent', 'تسجيل الدخول بحساب مختلف');
+          googleSignInBtn.innerHTML = `
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="w-6 h-6">
+                    <span>${signInDiffText}</span>
+                `;
+        }
+      } else {
+        // Hide current user info
+        currentUserInfo.classList.add('hidden');
+
+        // Reset button text to default "Sign in with Google"
+        if (googleSignInBtn) {
+          const loginText = getText('login.loginButton', 'تسجيل الدخول باستخدام Google');
+          googleSignInBtn.innerHTML = `
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="w-6 h-6">
+                    <span>${loginText}</span>
+                `;
+        }
+      }
+    }
+
+    // Listen for auth state changes
+    function setupAuthListeners() {
+      if (!window.firebaseAuth) return;
+
+      // Listen for auth state changes from modular SDK
+      window.addEventListener('authStateChanged', (event) => {
+        updateUIForCurrentUser(event.detail.user);
+      });
+
+      // Also check current state immediately
+      const currentUser = window.firebaseAuth.getCurrentUser();
+      updateUIForCurrentUser(currentUser);
+    }
+
+    // Theme toggle function (same as other pages)
+    function toggleTheme() {
+      const htmlElement = document.documentElement;
+      const isDark = htmlElement.classList.contains('dark');
+      const themeIcon = document.querySelector('#theme-toggle .material-icons-outlined');
+
+      if (isDark) {
+        htmlElement.classList.remove('dark');
+        if (themeIcon) themeIcon.textContent = 'dark_mode';
+        localStorage.setItem('theme', 'light');
+      } else {
+        htmlElement.classList.add('dark');
+        if (themeIcon) themeIcon.textContent = 'light_mode';
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+
+    // Handle Continue button
+    function handleContinue() {
+      window.location.href = '/coach';
+    }
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', async () => {
+
+      console.log('🔍 DEBUG: DOM loaded, checking for issues...');
+
+      // Ensure theme is initialized
+      if (window.initializeThemeUI) window.initializeThemeUI();
+
+      // Check if there's any automatic logout happening
+      const checkInterval = setInterval(() => {
+        if (window.firebaseAuth && window.firebaseAuth.getCurrentUser()) {
+          console.log('👤 User still logged in:', window.firebaseAuth.getCurrentUser().email);
+        }
+      }, 1000);
+
+      // Clear after 30 seconds
+      setTimeout(() => clearInterval(checkInterval), 30000);
+
+
+      // Clear any local session data on login page
+      localStorage.removeItem('ilqaa_token');
+      localStorage.removeItem('ilqaa_user');
+
+      // Set up listener for language changes to update dynamic JS text if needed (buttons mostly)
+      window.addEventListener('languageChanged', () => {
+        const user = window.firebaseAuth ? window.firebaseAuth.getCurrentUser() : null;
+        updateUIForCurrentUser(user);
+      });
+
+      // Wait for Firebase Auth to be ready
+      if (window.firebaseAuth) {
+        // Wait a bit for auth to initialize
+        setTimeout(() => {
+          setupAuthListeners();
+
+          // Set up event listeners
+          if (googleSignInBtn) {
+            googleSignInBtn.addEventListener('click', handleGoogleSignIn);
+          }
+
+          if (signOutBtn) {
+            signOutBtn.addEventListener('click', handleSignOut);
+          }
+
+          if (continueBtn) {
+            continueBtn.addEventListener('click', handleContinue);
+          }
+
+          // Check if already logged in
+          const user = window.firebaseAuth.getCurrentUser();
+          if (user) {
+            console.log('Already logged in as:', user.email);
+          }
+
+        }, 500);
+      } else {
+        console.error('Firebase Auth not loaded');
+        showMessage(getText('login.authSystemError', '❌ نظام المصادقة غير متوفر'), 'error');
+      }
+    });
+  </script>
+</body>
+
+</html>

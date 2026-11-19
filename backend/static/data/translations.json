@@ -1,0 +1,793 @@
+{
+    "meta": {
+        "defaultLanguage": "ar",
+        "supportedLanguages": [
+            "ar",
+            "en"
+        ]
+    },
+    "common": {
+        "ar": {
+            "appTitle": "إلقاء",
+            "language": "اللغة",
+            "arabic": "العربية",
+            "english": "English",
+            "switchTheme": "تبديل السمة",
+            "login": "تسجيل الدخول",
+            "logout": "تسجيل الخروج",
+            "home": "الرئيسية",
+            "settings": "الإعدادات",
+            "close": "إغلاق",
+            "save": "حفظ",
+            "cancel": "إلغاء"
+        },
+        "en": {
+            "appTitle": "Ilqaa",
+            "language": "Language",
+            "arabic": "العربية",
+            "english": "English",
+            "switchTheme": "Switch Theme",
+            "login": "Login",
+            "logout": "Logout",
+            "home": "Home",
+            "settings": "Settings",
+            "close": "Close",
+            "save": "Save",
+            "cancel": "Cancel"
+        }
+    },
+    "index": {
+        "ar": {
+            "pageTitle": "إلقاء - مدرّبك الذكي للخطابة والتواصل",
+            "nav": {
+                "whyIlqaa": "لماذا إلقاء؟",
+                "howItWorks": "كيف يعمل؟",
+                "features": "الميزات",
+                "audience": "لجميع الفئات",
+                "roadmap": "خارطة الطريق",
+                "getStarted": "إبدأ الآن",
+                "tryPrototype": "جرّب النموذج الأولي",
+                "discoverHow": "اكتشف كيف يعمل"
+            },
+            "hero": {
+                "tagline": "تكلّم بثقة... ألقِ بحضور",
+                "title": "إلقاء",
+                "description": "أول منصة عربية متخصصة في تقييم وتطوير مهارات الإلقاء باستخدام الذكاء الاصطناعي.",
+                "features": {
+                    "bodyLanguage": "تحليل لغة الجسد والتواصل البصري",
+                    "voiceTone": "تقييم نبرة الصوت وإيقاع الحديث",
+                    "fillerWords": "تتبع الكلمات الحشوية",
+                    "languageSupport": "دعم العربية الفصحى واللهجات والإنجليزية"
+                }
+            },
+            "whyIlqaa": {
+                "title": "لماذا تختار إلقاء؟",
+                "subtitle": "نقدم لك منصة متكاملة تجمع بين الدقة العلمية وأحدث تقنيات الذكاء الاصطناعي",
+                "comprehensiveAnalysis": {
+                    "title": "تحليل شامل",
+                    "description": "تقييم دقيق يشمل لغة الجسد، التواصل البصري، ونبرة الصوت، <strong>بالعربية الفصحى بدقة 100%</strong>."
+                },
+                "instantFeedback": {
+                    "title": "ملاحظات فورية",
+                    "description": "تقرير ذكي فوري يحدد نقاط القوة، نقاط التحسين، <strong>ويقترح تمارين مخصصة</strong> لك وحدك."
+                },
+                "personalizedTraining": {
+                    "title": "تدريب مخصص",
+                    "description": "خطط تدريبية شخصية تستهدف تحسين <strong>الثقة في الجسد، والطلاقة اللغوية</strong>."
+                }
+            },
+            "howItWorks": {
+                "title": "كيف يعمل إلقاء؟",
+                "subtitle": "بخطوات بسيطة، ابدأ رحلتك نحو الإتقان.",
+                "steps": {
+                    "record": {
+                        "number": "1",
+                        "title": "سجّل",
+                        "description": "سجّل خطابك أو عرضك التقديمي مباشرة عبر المنصة باستخدام كاميرا وميكروفون جهازك."
+                    },
+                    "analyze": {
+                        "number": "2",
+                        "title": "حلّل",
+                        "description": "يقوم الذكاء الاصطناعي بتحليل أدائك فورًا، مقيّمًا جوانب متعددة مثل السرعة، والكلمات الحشوية، والتواصل البصري."
+                    },
+                    "improve": {
+                        "number": "3",
+                        "title": "طوّر",
+                        "description": "استعرض تقاريرك المفصلة، واحصل على نصائح عملية، وكرر التدريب لتحقيق أفضل النتائج."
+                    }
+                }
+            },
+            "features": {
+                "title": "ميزات أساسية لمنصة إلقاء",
+                "subtitle": "نظرة على بعض المقاييس التي يحللها نظامنا الذكي.",
+                "speechAnalysis": {
+                    "title": "تحليل الكلام",
+                    "description": "تقييم سرعة الحديث، الكلمات الحشوية، تنوع المفردات والنبرة العاطفية.",
+                    "items": [
+                        "سرعة الحديث والإيقاع",
+                        "الكلمات الحشوية والمكررة",
+                        "التوقفات والتنفس"
+                    ]
+                },
+                "eyeContact": {
+                    "title": "التواصل البصري",
+                    "description": "قياس مدى الحفاظ على التواصل بالعين مع الجمهور الافتراضي.",
+                    "items": [
+                        "نسبة النظر للكاميرا",
+                        "قياس التشتت البصري",
+                        "توزيع التركيز على الجمهور الافتراضي"
+                    ]
+                },
+                "facialExpressions": {
+                    "title": "تعبيرات الوجه",
+                    "description": "تحليل المشاعر الظاهرة على وجهك ومدى ملاءمتها لمحتوى حديثك."
+                },
+                "handGestures": {
+                    "title": "إيماءات اليد",
+                    "description": "مراقبة حركة اليدين لضمان استخدامها بفعالية لدعم رسالتك."
+                },
+                "bodyLanguage": {
+                    "title": "الوقفة ولغة الجسد",
+                    "description": "تقييم استقامة الوقفة وثباتها لتعزيز الثقة والإيجابية.",
+                    "items": [
+                        "حركة اليدين والإيماءات",
+                        "وضعية الوقوف وثباتها",
+                        "ثقة الحضور والحركة"
+                    ]
+                },
+                "voiceLevel": {
+                    "title": "مستوى الصوت",
+                    "description": "تحليل وضوح الصوت وقوته لضمان وصوله إلى كامل الجمهور."
+                },
+                "languageSupport": {
+                    "title": "القوة اللغوية للمنصة",
+                    "languages": {
+                        "modernArabic": {
+                            "name": "العربية الفصحى",
+                            "accuracy": "دقة تحليل 100%"
+                        },
+                        "dialects": {
+                            "name": "اللهجات العربية",
+                            "accuracy": "دقة أعلى من 90%"
+                        },
+                        "english": {
+                            "name": "الإنجليزية",
+                            "accuracy": "تحليل شامل للصوت والوضوح"
+                        }
+                    }
+                }
+            },
+            "audience": {
+                "title": "مصمم خصيصًا لاحتياجاتك",
+                "subtitle": "تُخدم منصة إلقاء قطاعات متنوعة بتقنية واحدة.",
+                "categories": {
+                    "education": {
+                        "title": "قطاع التعليم",
+                        "description": "الطلاب، الجامعات، المعلمون"
+                    },
+                    "entrepreneurship": {
+                        "title": "ريادة الأعمال",
+                        "description": "الرواد، المسرعات، الحاضنات"
+                    },
+                    "media": {
+                        "title": "الإعلام والمحتوى",
+                        "description": "مذيعون، صناع محتوى، مؤثرون"
+                    },
+                    "corporate": {
+                        "title": "القطاع الوظيفي",
+                        "description": "موظفون، مدراء، فرق الموارد البشرية"
+                    },
+                    "sales": {
+                        "title": "قطاع المبيعات",
+                        "description": "مندوبو المبيعات، مدراء الحسابات"
+                    },
+                    "government": {
+                        "title": "الجهات الحكومية",
+                        "description": "الناطقون الرسميون، برامج التواصل"
+                    },
+                    "cultural": {
+                        "title": "المؤسسات الثقافية",
+                        "description": "خطباء، محاضرون، مراكز ثقافية"
+                    },
+                    "everyone": {
+                        "title": "الجميع",
+                        "description": "كل من يرغب في تطوير مهارات التواصل"
+                    }
+                }
+            },
+            "prototype": {
+                "title": "النموذج الأولي للمنصة (MVP)",
+                "subtitle": "شاهد واجهة التحليل الفوري التي ستساعدك على التطور.",
+                "imageAlt": "شخص يتحدث أمام كاميرا",
+                "imageSrc": "/assets/ilqaa_sample_ar.png"
+            },
+            "roadmap": {
+                "title": "خارطة طريق المستقبل",
+                "subtitle": "خططنا الطموحة لتطوير المنصة وتقديم قيمة أكبر.",
+                "phases": {
+                    "phase1": {
+                        "title": "إطلاق النسخة التجريبية (MVP)",
+                        "timeline": "المرحلة 1 - Q4 2025",
+                        "description": "إتاحة النموذج الأولي للمستخدمين الأوائل وجمع الملاحظات الأولية.",
+                        "items": [
+                            "النواة الأساسية: تحليل الصوت، الجسد، والتواصل البصري"
+                        ]
+                    },
+                    "phase2": {
+                        "title": "إطلاق الميزات المتقدمة",
+                        "timeline": "المرحلة 2 - Q1 2026",
+                        "description": "إضافة <strong>مدرب النصوص الذكي (Script Coach)</strong> و<strong>محرر الملاحظات اللحظية (Deep Feedback)</strong>."
+                    },
+                    "phase3": {
+                        "title": "إطلاق تجارب التدريب الثورية",
+                        "timeline": "المرحلة 3 - Q3 2026",
+                        "description": "إطلاق <strong>الجمهور الافتراضي (VR Audience)</strong> والإصدارات المتخصصة للمقابلات وعروض المستثمرين."
+                    }
+                }
+            },
+            "cta": {
+                "title": "هل أنت مستعد لتكون متحدثًا استثنائيًا؟",
+                "subtitle": "انضم إلى قائمة الانتظار وكن من أوائل من يختبرون منصة إلقاء عند إطلاقها.",
+                "emailPlaceholder": "أدخل بريدك الإلكتروني",
+                "signUpButton": "سجل اهتمامك",
+                "demoRequest": "احجز عرضًا لجامعتك أو شركتك"
+            },
+            "footer": {
+                "copyright": "2025© إلقاء. جميع الحقوق محفوظة.",
+                "contactEmail": "info@ilqaa.ai"
+            }
+        },
+        "en": {
+            "pageTitle": "Ilqaa - Your AI-Powered Public Speaking Coach",
+            "nav": {
+                "whyIlqaa": "Why Ilqaa?",
+                "howItWorks": "How It Works",
+                "features": "Features",
+                "audience": "For Everyone",
+                "roadmap": "Roadmap",
+                "getStarted": "Get Started",
+                "tryPrototype": "Try Prototype",
+                "discoverHow": "Discover How"
+            },
+            "hero": {
+                "tagline": "Speak with confidence... Deliver with presence",
+                "title": "Ilqaa",
+                "description": "The first Arabic platform specialized in evaluating and developing speaking skills using artificial intelligence.",
+                "features": {
+                    "bodyLanguage": "Body language and eye contact analysis",
+                    "voiceTone": "Voice tone and speech rhythm evaluation",
+                    "fillerWords": "Filler word tracking",
+                    "languageSupport": "Support for Modern Standard Arabic, dialects, and English"
+                }
+            },
+            "whyIlqaa": {
+                "title": "Why Choose Ilqaa?",
+                "subtitle": "We offer you an integrated platform that combines scientific accuracy with the latest AI technologies",
+                "comprehensiveAnalysis": {
+                    "title": "Comprehensive Analysis",
+                    "description": "Accurate assessment covering body language, eye contact, and voice tone, <strong>in Modern Standard Arabic with 100% accuracy</strong>."
+                },
+                "instantFeedback": {
+                    "title": "Instant Feedback",
+                    "description": "Smart instant report that identifies strengths, areas for improvement, <strong>and suggests customized exercises</strong> just for you."
+                },
+                "personalizedTraining": {
+                    "title": "Personalized Training",
+                    "description": "Personal training plans aimed at improving <strong>body confidence and linguistic fluency</strong>."
+                }
+            },
+            "howItWorks": {
+                "title": "How Ilqaa Works?",
+                "subtitle": "With simple steps, begin your journey towards mastery.",
+                "steps": {
+                    "record": {
+                        "number": "1",
+                        "title": "Record",
+                        "description": "Record your speech or presentation directly through the platform using your device's camera and microphone."
+                    },
+                    "analyze": {
+                        "number": "2",
+                        "title": "Analyze",
+                        "description": "AI instantly analyzes your performance, assessing multiple aspects like speed, filler words, and eye contact."
+                    },
+                    "improve": {
+                        "number": "3",
+                        "title": "Improve",
+                        "description": "Review your detailed reports, get practical tips, and repeat training to achieve the best results."
+                    }
+                }
+            },
+            "features": {
+                "title": "Core Features of Ilqaa Platform",
+                "subtitle": "A look at some of the metrics analyzed by our smart system.",
+                "speechAnalysis": {
+                    "title": "Speech Analysis",
+                    "description": "Evaluation of speech speed, filler words, vocabulary diversity, and emotional tone.",
+                    "items": [
+                        "Speech speed and rhythm",
+                        "Filler and repeated words",
+                        "Pauses and breathing"
+                    ]
+                },
+                "eyeContact": {
+                    "title": "Eye Contact",
+                    "description": "Measuring the extent of maintaining eye contact with the virtual audience.",
+                    "items": [
+                        "Percentage of looking at camera",
+                        "Measuring visual distraction",
+                        "Focus distribution on virtual audience"
+                    ]
+                },
+                "facialExpressions": {
+                    "title": "Facial Expressions",
+                    "description": "Analyzing visible emotions on your face and their appropriateness to your speech content."
+                },
+                "handGestures": {
+                    "title": "Hand Gestures",
+                    "description": "Monitoring hand movements to ensure effective use in supporting your message."
+                },
+                "bodyLanguage": {
+                    "title": "Posture & Body Language",
+                    "description": "Evaluating posture straightness and stability to enhance confidence and positivity.",
+                    "items": [
+                        "Hand movements and gestures",
+                        "Standing posture and stability",
+                        "Presence confidence and movement"
+                    ]
+                },
+                "voiceLevel": {
+                    "title": "Voice Level",
+                    "description": "Analyzing voice clarity and strength to ensure it reaches the entire audience."
+                },
+                "languageSupport": {
+                    "title": "Platform Language Power",
+                    "languages": {
+                        "modernArabic": {
+                            "name": "Modern Standard Arabic",
+                            "accuracy": "100% analysis accuracy"
+                        },
+                        "dialects": {
+                            "name": "Arabic Dialects",
+                            "accuracy": "Over 90% accuracy"
+                        },
+                        "english": {
+                            "name": "English",
+                            "accuracy": "Comprehensive voice and clarity analysis"
+                        }
+                    }
+                }
+            },
+            "audience": {
+                "title": "Designed Specifically for Your Needs",
+                "subtitle": "Ilqaa platform serves diverse sectors with one technology.",
+                "categories": {
+                    "education": {
+                        "title": "Education Sector",
+                        "description": "Students, universities, teachers"
+                    },
+                    "entrepreneurship": {
+                        "title": "Entrepreneurship",
+                        "description": "Entrepreneurs, accelerators, incubators"
+                    },
+                    "media": {
+                        "title": "Media & Content",
+                        "description": "Broadcasters, content creators, influencers"
+                    },
+                    "corporate": {
+                        "title": "Corporate Sector",
+                        "description": "Employees, managers, HR teams"
+                    },
+                    "sales": {
+                        "title": "Sales Sector",
+                        "description": "Sales representatives, account managers"
+                    },
+                    "government": {
+                        "title": "Government Entities",
+                        "description": "Official spokespersons, communication programs"
+                    },
+                    "cultural": {
+                        "title": "Cultural Institutions",
+                        "description": "Orators, lecturers, cultural centers"
+                    },
+                    "everyone": {
+                        "title": "Everyone",
+                        "description": "Anyone who wants to develop communication skills"
+                    }
+                }
+            },
+            "prototype": {
+                "title": "Platform Prototype (MVP)",
+                "subtitle": "Watch the real-time analysis interface that will help you improve.",
+                "imageAlt": "Person speaking in front of a camera",
+                "imageSrc": "/assets/ilqaa_sample_en.png"
+            },
+            "roadmap": {
+                "title": "Future Roadmap",
+                "subtitle": "Our ambitious plans for platform development and delivering greater value.",
+                "phases": {
+                    "phase1": {
+                        "title": "Beta Version Launch (MVP)",
+                        "timeline": "Phase 1 - Q4 2025",
+                        "description": "Making the initial prototype available to early users and collecting initial feedback.",
+                        "items": [
+                            "Core foundation: Audio, body, and eye contact analysis"
+                        ]
+                    },
+                    "phase2": {
+                        "title": "Advanced Features Launch",
+                        "timeline": "Phase 2 - Q1 2026",
+                        "description": "Adding <strong>Script Coach</strong> and <strong>Deep Feedback Editor</strong>."
+                    },
+                    "phase3": {
+                        "title": "Revolutionary Training Experiences Launch",
+                        "timeline": "Phase 3 - Q3 2026",
+                        "description": "Launching <strong>VR Audience</strong> and specialized versions for interviews and investor presentations."
+                    }
+                }
+            },
+            "cta": {
+                "title": "Ready to become an exceptional speaker?",
+                "subtitle": "Join the waiting list and be among the first to test the Ilqaa platform upon launch.",
+                "emailPlaceholder": "Enter your email address",
+                "signUpButton": "Register Interest",
+                "demoRequest": "Book a demo for your university or company"
+            },
+            "footer": {
+                "copyright": "© 2025 Ilqaa. All rights reserved.",
+                "contactEmail": "info@ilqaa.ai"
+            }
+        }
+    },
+    "login": {
+        "ar": {
+            "pageTitle": "تسجيل الدخول - إلقاء",
+            "welcome": "مرحباً بعودتك",
+            "subtitle": "سجّل الدخول باستخدام حساب Google للوصول إلى منصة إلقاء",
+            "loginButton": "تسجيل الدخول باستخدام Google",
+            "backToHome": "العودة للرئيسية",
+            "backToHomePage": "العودة إلى الصفحة الرئيسية",
+            "currentlyLoggedIn": "مسجّل دخول حاليًا بـ:",
+            "changeAccount": "تغيير الحساب",
+            "continue": "المتابعة",
+            "verifyingAccount": "جاري التحقق من الحساب...",
+            "accessInfo": "الوصول مقتصر على المستخدمين المسجلين مسبقاً. إذا لم تتمكن من الدخول، رجاءً تواصل مع المسؤول.",
+            "successMessage": "✅ تم تسجيل الدخول بنجاح! جاري التوجيه...",
+            "authSystemError": "❌ نظام المصادقة غير متوفر",
+            "authNotReady": "❌ نظام المصادقة غير جاهز بعد",
+            "generalError": "حدث خطأ أثناء تسجيل الدخول",
+            "popupBlocked": "تم حجب نافذة التسجيل. يرجى السماح بالنوافذ المنبثقة لهذا الموقع.",
+            "cancelled": "تم إلغاء عملية التسجيل.",
+            "contactAdmin": "يرجى التواصل مع المسؤول",
+            "notAuthorized": "❌ غير مصرح بالدخول",
+            "logoutSuccess": "✅ تم تسجيل الخروج",
+            "signInDifferent": "تسجيل الدخول بحساب مختلف"
+        },
+        "en": {
+            "pageTitle": "Login - Ilqaa",
+            "welcome": "Welcome Back",
+            "subtitle": "Sign in with your Google account to access the Ilqaa platform",
+            "loginButton": "Sign in with Google",
+            "backToHome": "Back to Home",
+            "backToHomePage": "Back to Home Page",
+            "currentlyLoggedIn": "Currently logged in as:",
+            "changeAccount": "Change Account",
+            "continue": "Continue",
+            "verifyingAccount": "Verifying account...",
+            "accessInfo": "Access is restricted to pre-registered users. If you cannot log in, please contact the administrator.",
+            "successMessage": "✅ Login successful! Redirecting...",
+            "authSystemError": "❌ Authentication system not available",
+            "authNotReady": "❌ Authentication system not ready yet",
+            "generalError": "An error occurred during login",
+            "popupBlocked": "Login window was blocked. Please allow pop-ups for this site.",
+            "cancelled": "Login process was cancelled.",
+            "contactAdmin": "Please contact the administrator",
+            "notAuthorized": "❌ Not authorized to login",
+            "logoutSuccess": "✅ Signed out successfully",
+            "signInDifferent": "Sign in with a different account"
+        }
+    },
+    "coach": {
+        "ar": {
+            "pageTitle": "المدرّب الذكي - إلقاء",
+            "startSession": "إبدأ الجلسة",
+            "stopSession": "إيقاف الجلسة",
+            "selectTopic": "اختر نوع الخطاب",
+            "settingsTitle": "الإعدادات",
+            "topicLabel": "نوع الخطاب",
+            "selectTopicTitle": "اختر نوع الخطاب",
+            "lecture": "محاضرة (Lecture)",
+            "lectureDesc": "مناسبة للعروض التقديمية والتعليمية",
+            "khutba": "خطبة (Khutba)",
+            "khutbaDesc": "مناسبة للخطب الدينية والوعظية",
+            "topicNote": "سيؤثر اختيارك على التوجيهات وتحليل المحتوى المقدم",
+            "camera": "الكاميرا",
+            "recording": "تسجيل",
+            "viewResults": "عرض النتائج",
+            "processingResults": "جاري معالجة النتائج...",
+            "sessionStats": "إحصائيات الجلسة",
+            "poseDetection": "كشف الوضعية",
+            "handDetection": "كشف اليدين",
+            "fps": "إطارات/ثانية",
+            "alertsInfo": "التنبيهات تظهر على الفيديو مباشرة. المقاييس الحية (التواصل البصري، الوضعية، الإيماءات) معروضة في الزاوية العلوية.",
+            "contentAnalysis": "تحليل المحتوى",
+            "speakingGuidance": "توجيهات التحدث",
+            "contentPlaceholder": "سيظهر تحليل المحتوى هنا عند بدء الجلسة",
+            "guidancePlaceholder": "سيظهر التوجيه هنا عند بدء الجلسة",
+            "updatingAnalysis": "جاري تحديث التحليل...",
+            "updatingGuidance": "جاري تحديث التوجيهات...",
+            "analyzingContent": "جاري تحليل المحتوى...",
+            "preparingGuidance": "جاري إعداد التوجيهات...",
+            "nextUpdate": "التحديث القادم:",
+            "secondsShort": "ث",
+            "cameraInactive": "الكاميرا غير نشطة",
+            "cameraStartInfo": "سيتم تشغيل الكاميرا عند بدء الجلسة",
+            "cameraError": "خطأ في الكاميرا",
+            "checkPermissions": "تحقق من الأذونات وحاول مرة أخرى",
+            "overlay": {
+                "eyeContact": "تواصل بصري",
+                "posture": "وضعية",
+                "gestures": "إيماءات",
+                "alert": "تنبيه"
+            },
+            "notifications": {
+                "topicChanged": "تم تغيير نوع الخطاب",
+                "settingsLocked": "لا يمكن تعديل الإعدادات",
+                "stopSessionFirst": "يجب إنهاء الجلسة النشطة أولاً"
+            },
+            "transcriptionStatus": {
+                "connecting": "جاري الاتصال بخدمة النسخ الفوري...",
+                "started": "جاري النسخ الفوري... ابدأ بالتحدث"
+            },
+            "performanceLabels": {
+                "excellent": "متميز",
+                "very_good": "جيد جداً",
+                "good": "جيد",
+                "needs_improvement": "يحتاج تحسين"
+            },
+            "visualAnalysis": {
+                "title": "التحليل البصري",
+                "eyeContact": "التواصل البصري",
+                "eyeContactExcellent": "ممتاز",
+                "eyeContactDescription": "الحفاظ على تركيز ثابت مع الجمهور.",
+                "handGestures": "إيماءات اليد",
+                "handGesturesOptimal": "النطاق الأمثل: 10-20 في الدقيقة.",
+                "facialExpression": "تعبيرات الوجه",
+                "facialExpressionEngaged": "متفاعل",
+                "facialExpressionDescription": "إظهار مشاعر إيجابية ومناسبة.",
+                "posture": "الوقفة",
+                "postureUpright": "مستقيمة",
+                "postureDescription": "أكتاف للخلف، وقفة واثقة."
+            },
+            "speechAnalysis": {
+                "title": "تحليل الكلام",
+                "pace": "السرعة (كلمة/دقيقة)",
+                "paceDescription": "فكر في الإبطاء من أجل الوضوح.",
+                "volume": "مستوى الصوت (ديسيبل)",
+                "volumeDescription": "مستوى الصوت واضح وثابت.",
+                "pitch": "طبقة الصوت (هرتز)",
+                "pitchDescription": "تنوع صوتي جيد وتنغيم ممتاز.",
+                "fillerWords": "الكلمات الحشوية",
+                "fillerWordsDescription": "استخدام \"امم\" و \"آه\" بشكل متكرر.",
+                "sentiment": "المشاعر",
+                "sentimentNeutral": "محايد",
+                "sentimentDescription": "النبرة العاطفية العامة للكلام.",
+                "emotionsTitle": "المشاعر والتحليل النفسي",
+                "intent": "القصد",
+                "intensity": "الحدة",
+                "urgency": "الاستعجال",
+                "vocabDiversity": "تنوع المفردات",
+                "vocabDiversityDescription": "مدى تنوع واختلاف الكلمات المستخدمة.",
+                "microphoneLevel": "مستوى الميكروفون",
+                "paceInitial": "ابدأ بالتحدث لرؤية تحليل السرعة",
+                "fillerWordsNone": "لم يتم اكتشاف كلمات حشو",
+                "wpmStatus": {
+                    "very_slow": "بطيء جداً",
+                    "slow": "بطيء",
+                    "good": "سرعة جيدة",
+                    "fast": "سريع",
+                    "very_fast": "سريع جداً"
+                },
+                "wpmInstruction": {
+                    "very_slow": "حاول التحدث بسرعة أكبر للحفاظ على تفاعل الجمهور",
+                    "slow": "فكر في زيادة سرعتك قليلاً",
+                    "good": "سرعة تحدث ممتازة للتواصل الواضح",
+                    "fast": "طاقة جيدة، ولكن تأكد من الوضوح للمواضيع المعقدة",
+                    "very_fast": "ممتاز للعروض التقديمية، ولكن إبطئ قليلاً للنقاط المهمة"
+                },
+                "sentimentStatus": {
+                    "positive": "إيجابي",
+                    "negative": "سلبي",
+                    "neutral": "محايد"
+                }
+            },
+            "transcription": {
+                "title": "النص المباشر",
+                "placeholder": "سيظهر النص هنا عندما تبدأ بالتحدث..."
+            }
+        },
+        "en": {
+            "pageTitle": "AI Coach - Ilqaa",
+            "startSession": "Start Session",
+            "stopSession": "Stop Session",
+            "selectTopic": "Select Speech Type",
+            "settingsTitle": "Settings",
+            "topicLabel": "Speech Type",
+            "selectTopicTitle": "Select Speech Type",
+            "lecture": "Lecture",
+            "lectureDesc": "Suitable for educational and professional presentations",
+            "khutba": "Khutba",
+            "khutbaDesc": "Suitable for religious sermons and preaching",
+            "topicNote": "Your choice will affect the guidance and content analysis provided",
+            "camera": "Camera",
+            "recording": "REC",
+            "viewResults": "View Results",
+            "processingResults": "Processing Results...",
+            "sessionStats": "Session Statistics",
+            "poseDetection": "Pose Detection",
+            "handDetection": "Hand Detection",
+            "fps": "FPS",
+            "alertsInfo": "Alerts appear directly on video. Live metrics (Eye Contact, Posture, Gestures) are shown in the top corner.",
+            "contentAnalysis": "Content Analysis",
+            "speakingGuidance": "Speaking Guidance",
+            "contentPlaceholder": "Content analysis will appear here when session starts",
+            "guidancePlaceholder": "Guidance will appear here when session starts",
+            "updatingAnalysis": "Updating analysis...",
+            "updatingGuidance": "Updating guidance...",
+            "analyzingContent": "Analyzing content...",
+            "preparingGuidance": "Preparing guidance...",
+            "nextUpdate": "Next update:",
+            "secondsShort": "s",
+            "cameraInactive": "Camera Inactive",
+            "cameraStartInfo": "Camera will start when session begins",
+            "cameraError": "Camera Error",
+            "checkPermissions": "Check permissions and try again",
+            "overlay": {
+                "eyeContact": "Eye Contact",
+                "posture": "Posture",
+                "gestures": "Gestures",
+                "alert": "Alert"
+            },
+            "notifications": {
+                "topicChanged": "Speech type changed",
+                "settingsLocked": "Cannot change settings",
+                "stopSessionFirst": "Must stop active session first"
+            },
+            "transcriptionStatus": {
+                "connecting": "Connecting to transcription service...",
+                "started": "Transcribing... start speaking"
+            },
+            "performanceLabels": {
+                "excellent": "Excellent",
+                "very_good": "Very Good",
+                "good": "Good",
+                "needs_improvement": "Needs Improvement"
+            },
+            "visualAnalysis": {
+                "title": "Visual Analysis",
+                "eyeContact": "Eye Contact",
+                "eyeContactExcellent": "Excellent",
+                "eyeContactDescription": "Keeping consistent audience focus.",
+                "handGestures": "Hand Gestures",
+                "handGesturesOptimal": "Optimal range: 10-20 per minute.",
+                "facialExpression": "Facial Expression",
+                "facialExpressionEngaged": "Engaged",
+                "facialExpressionDescription": "Showing positive and appropriate emotion.",
+                "posture": "Posture",
+                "postureUpright": "Upright",
+                "postureDescription": "Shoulders back, confident stance."
+            },
+            "speechAnalysis": {
+                "title": "Speech Analysis",
+                "pace": "Pace (WPM)",
+                "paceDescription": "Consider slowing down for clarity.",
+                "volume": "Volume (dB)",
+                "volumeDescription": "Volume is clear and consistent.",
+                "pitch": "Pitch (Hz)",
+                "pitchDescription": "Good vocal variety and intonation.",
+                "fillerWords": "Filler Words",
+                "fillerWordsDescription": "\"Um\" and \"Ah\" used frequently.",
+                "sentiment": "Sentiment",
+                "sentimentNeutral": "Neutral",
+                "sentimentDescription": "Overall emotional tone of speech.",
+                "emotionsTitle": "Emotions & Psychology",
+                "intent": "Intent",
+                "intensity": "Intensity",
+                "urgency": "Urgency",
+                "vocabDiversity": "Vocabulary Diversity",
+                "vocabDiversityDescription": "Range and variety of words used.",
+                "microphoneLevel": "Microphone Level",
+                "paceInitial": "Start speaking to see pace analysis",
+                "fillerWordsNone": "No filler words detected",
+                "wpmStatus": {
+                    "very_slow": "Very Slow",
+                    "slow": "Slow",
+                    "good": "Good Pace",
+                    "fast": "Fast",
+                    "very_fast": "Very Fast"
+                },
+                "wpmInstruction": {
+                    "very_slow": "Try speaking faster to maintain audience engagement",
+                    "slow": "Consider increasing your pace slightly",
+                    "good": "Excellent speaking pace for clear communication",
+                    "fast": "Good energy, but ensure clarity for complex topics",
+                    "very_fast": "Great for presentations, but slow down for important points"
+                },
+                "sentimentStatus": {
+                    "positive": "Positive",
+                    "negative": "Negative",
+                    "neutral": "Neutral"
+                }
+            },
+            "transcription": {
+                "title": "Live Transcription",
+                "placeholder": "Transcription will appear here when you start speaking..."
+            }
+        }
+    },
+    "results": {
+        "ar": {
+            "pageTitle": "نتائج التحليل - إلقاء",
+            "analysisTitle": "تحليل الأداء",
+            "loadingResults": "جاري تحميل النتائج...",
+            "audioEvaluation": "التقييم الصوتي النهائي",
+            "visualEvaluation": "التقييم البصري النهائي",
+            "analyzingAudio": "جاري تحليل الأداء الصوتي...",
+            "analyzingVisual": "جاري تحليل الأداء البصري...",
+            "aiAnalysis": "تحليل الذكاء الاصطناعي",
+            "detailedAnalysis": "تحليل مفصل",
+            "audioAnalysis": "التقييم الصوتي",
+            "visualAnalysis": "التقييم البصري",
+            "performanceSummary": "ملخص الأداء",
+            "improvementTips": "توصيات للتحسين",
+            "tip": "نصيحة",
+            "developmentSteps": "خطوات عملية للتطوير",
+            "noSessionData": "لم يتم العثور على بيانات الجلسة. يرجى العودة وبدء جلسة جديدة.",
+            "backToCoach": "العودة إلى المدرب",
+            "analyzingPerformance": "جاري تحليل الأداء الشامل...",
+            "preparingRecommendations": "جاري إعداد التوصيات...",
+            "preparingDevelopmentSteps": "جاري إعداد خطوات التطوير...",
+            "loadingError": "خطأ في تحميل النتائج",
+            "sessionRecording": "تم تسجيله في",
+            "duration": "المدة",
+            "language": "اللغة",
+            "performanceLabels": {
+                "excellent": "متميز",
+                "very_good": "جيد جداً",
+                "good": "جيد",
+                "needs_improvement": "يحتاج تحسين"
+            }
+        },
+        "en": {
+            "pageTitle": "Analysis Results - Ilqaa",
+            "analysisTitle": "Performance Analysis",
+            "loadingResults": "Loading results...",
+            "audioEvaluation": "Final Audio Evaluation",
+            "visualEvaluation": "Final Visual Evaluation",
+            "analyzingAudio": "Analyzing audio performance...",
+            "analyzingVisual": "Analyzing visual performance...",
+            "aiAnalysis": "AI Analysis",
+            "detailedAnalysis": "Detailed Analysis",
+            "audioAnalysis": "Audio Evaluation",
+            "visualAnalysis": "Visual Evaluation",
+            "performanceSummary": "Performance Summary",
+            "improvementTips": "Improvement Recommendations",
+            "tip": "Tip",
+            "developmentSteps": "Practical Development Steps",
+            "noSessionData": "No session data found. Please go back and start a new session.",
+            "backToCoach": "Back to Coach",
+            "analyzingPerformance": "Analyzing overall performance...",
+            "preparingRecommendations": "Preparing recommendations...",
+            "preparingDevelopmentSteps": "Preparing development steps...",
+            "loadingError": "Error Loading Results",
+            "sessionRecording": "Recorded on",
+            "duration": "Duration",
+            "language": "Language",
+            "performanceLabels": {
+                "excellent": "Excellent",
+                "very_good": "Very Good",
+                "good": "Good",
+                "needs_improvement": "Needs Improvement"
+            }
+        }
+    }
+}

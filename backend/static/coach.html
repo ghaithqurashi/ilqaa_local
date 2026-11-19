@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link rel="icon" href="/assets/favicon.ico">
+    <title data-i18n="coach.pageTitle">إلقاء - المدرّب الذكي</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
+    <link href="/css/styles.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#3b82f6", // Blue for Start Session
+                        success: "#22c55e", // Green for Results
+                        "background-light": "#f3f4f6",
+                        "background-dark": "#0f172a", // Dark slate/blue tone from image
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1e293b", // Lighter slate for panels
+                        "text-light": "#1f2937",
+                        "text-dark": "#e6edf3",
+                        "muted-light": "#6b7280",
+                        "muted-dark": "#8b949e",
+                        "border-light": "#e5e7eb",
+                        "border-dark": "#334155",
+                        "data-green": "#2ECC71",
+                        "data-amber": "#F1C40F",
+                        "data-red": "#E74C3C",
+                    },
+                    fontFamily: {
+                        display: ["Cairo", "sans-serif"],
+                        "latin": ["Cairo", "sans-serif"],
+                        "arabic": ["Cairo", "sans-serif"],
+                        "amiri": ["Amiri", "serif"],
+                        "scheherazade": ["'Scheherazade New'", "serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem", // Changed from 0.75rem to match code.html
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        };
+    </script>
+    <script>
+        window.APP_CONFIG = {
+            BACKEND_URL: '',
+            ENVIRONMENT: 'development'
+        };
+    </script>
+    <script src="/js/config.js"></script>
+    <script src="/js/theme-init.js"></script>
+    <script src="/js/language-switcher.js"></script>
+    <script src="/js/mobile-nav.js"></script>
+    <script type="module" src="/js/firebase-auth.js"></script>
+    <script src="/js/app.js"></script>
+    <style>
+        /* Specific overrides for specific content areas */
+        #transcription-display,
+        #ai-feedback-content,
+        #speaking-guidance-content {
+            font-family: 'Scheherazade New', serif !important;
+            font-size: 0.875rem; /* 14px */
+            line-height: 1.8;
+        }
+
+        #transcription-display *,
+        #ai-feedback-content *,
+        #speaking-guidance-content * {
+            font-family: 'Scheherazade New', serif !important;
+        }
+
+        #overlay-toggle-btn:disabled {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Dashboard specific scrollbars */
+        .dashboard-scroll {
+            scrollbar-width: thin;
+        }
+
+        .dashboard-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .dashboard-scroll::-webkit-scrollbar-thumb {
+            background-color: rgba(156, 163, 175, 0.5);
+            border-radius: 3px;
+        }
+
+        /* Metric badge animations */
+        .metric-badge {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark font-display transition-colors duration-300 min-h-screen lg:h-screen flex flex-col lg:overflow-hidden">
+
+    <header class="h-16 flex-none bg-surface-light/80 dark:bg-surface-dark/80 backdrop-blur-md shadow-sm z-40 relative">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 h-full">
+            <div class="flex items-center justify-between h-full">
+                <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                    <span class="material-icons-outlined text-primary text-2xl">campaign</span>
+                    <a href="/" id="app-title"
+                        class="text-xl font-bold text-text-light dark:text-text-dark hover:text-primary transition-colors"
+                        data-i18n="common.appTitle">إلقاء</a>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <button id="start-session-btn"
+                        class="flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-2 text-white text-sm font-bold transition-colors hover:bg-blue-700">
+                        <span class="material-icons-outlined text-lg">play_circle</span>
+                        <span id="start-session-text" data-i18n="coach.startSession">إبدأ الجلسة</span>
+                    </button>
+
+                    <div class="hidden lg:flex items-center gap-2">
+                        <button id="logout-btn"
+                            class="flex size-10 items-center justify-center rounded-xl border border-gray-300 dark:border-gray-700 text-text-light dark:text-text-dark transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
+                            onclick="logout()" title="Logout">
+                            <span class="material-icons-outlined text-lg">logout</span>
+                        </button>
+
+                        <div class="relative" id="settings-dropdown">
+                            <button id="settings-btn"
+                                class="flex size-10 items-center justify-center rounded-xl border border-gray-300 dark:border-gray-700 text-text-light dark:text-text-dark transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
+                                title="Settings">
+                                <span class="material-icons-outlined text-lg">settings</span>
+                            </button>
+                            <div id="settings-menu"
+                                class="absolute rtl:left-0 ltr:right-0 top-12 hidden bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-700 rounded-xl p-2 min-w-48 z-50 shadow-lg">
+                                <button id="topic-option"
+                                    class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+                                    <span class="material-icons-outlined text-lg">topic</span>
+                                    <span data-i18n="coach.topicLabel">نوع الخطاب</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="relative" id="language-switcher">
+                            <button id="language-toggle"
+                                class="flex size-10 items-center justify-center rounded-xl border border-gray-300 dark:border-gray-700 text-text-light dark:text-text-dark transition-colors hover:bg-gray-100 dark:hover:bg-gray-800">
+                                <span class="material-icons-outlined text-lg">language</span>
+                            </button>
+                            <div id="language-menu"
+                                class="absolute rtl:right-0 ltr:left-0 top-12 hidden bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-700 rounded-xl p-2 min-w-32 z-50 shadow-lg">
+                                <button data-lang="en"
+                                    class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+                                    <span data-i18n="common.english">English</span>
+                                </button>
+                                <button data-lang="ar"
+                                    class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+                                    <span data-i18n="common.arabic">العربية</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <button id="theme-toggle"
+                            class="flex size-10 items-center justify-center rounded-xl border border-gray-300 dark:border-gray-700 text-text-light dark:text-text-dark transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
+                            onclick="window.toggleTheme()">
+                            <span class="material-icons-outlined text-lg">light_mode</span>
+                        </button>
+                    </div>
+
+                    <div class="lg:hidden relative" id="mobile-actions">
+                        <button id="mobile-actions-toggle"
+                            class="flex size-10 items-center justify-center rounded-xl border border-gray-300 dark:border-gray-700 text-text-light dark:text-text-dark transition-colors hover:bg-gray-100 dark:hover:bg-gray-800">
+                            <span class="material-icons-outlined text-lg">more_vert</span>
+                        </button>
+
+                        <div id="mobile-actions-menu"
+                            class="absolute rtl:left-0 ltr:right-0 top-12 mt-2 hidden bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-700 rounded-xl p-2 min-w-56 z-50 shadow-lg space-y-1">
+
+                            <div class="px-3 py-1 text-xs text-muted-light dark:text-muted-dark font-bold"
+                                data-i18n="common.language">اللغة</div>
+                            <button data-lang="ar"
+                                class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+                                <span class="w-6 text-center">🇸🇦</span>
+                                <span data-i18n="common.arabic">العربية</span>
+                            </button>
+                            <button data-lang="en"
+                                class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+                                <span class="w-6 text-center">🇬🇧</span>
+                                <span data-i18n="common.english">English</span>
+                            </button>
+
+                            <div class="border-t border-gray-200 dark:border-gray-700 my-1"></div>
+
+                            <button id="mobile-theme-toggle"
+                                class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+                                <span class="material-icons-outlined text-lg">light_mode</span>
+                                <span data-i18n="common.switchTheme">تبديل السمة</span>
+                            </button>
+
+                            <button id="mobile-topic-option"
+                                class="flex items-center gap-2 w-full px-3 py-2 text-sm text-text-light dark:text-text-dark rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+                                <span class="material-icons-outlined text-lg">settings</span>
+                                <span data-i18n="coach.settingsTitle">الإعدادات</span>
+                            </button>
+
+                            <div class="border-t border-gray-200 dark:border-gray-700 my-1"></div>
+
+                            <button id="mobile-logout-btn"
+                                class="flex items-center gap-2 w-full px-3 py-2 text-sm text-red-500 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+                                <span class="material-icons-outlined text-lg">logout</span>
+                                <span data-i18n="common.logout">تسجيل الخروج</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content" class="flex-1 p-2 lg:p-4 h-full overflow-y-auto">
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:h-full">
+
+            <div class="lg:col-span-3 flex flex-col gap-3 lg:h-full lg:overflow-y-auto dashboard-scroll pl-1 pr-1">
+                <h3
+                    class="text-text-light dark:text-text-dark text-lg font-bold leading-tight px-1 flex items-center gap-2">
+                    <span class="material-icons-outlined text-primary">mic</span>
+                    <span data-i18n="coach.speechAnalysis.title">تحليل الكلام</span>
+                </h3>
+
+                <div
+                    class="p-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-surface-light dark:bg-surface-dark shadow-sm">
+                    <div class="flex items-center justify-between gap-3">
+                        <span class="text-sm text-muted-light dark:text-muted-dark whitespace-nowrap"
+                            data-i18n="coach.speechAnalysis.microphoneLevel">مستوى الميكروفون</span>
+                        <div class="flex items-center gap-2 flex-1 max-w-48">
+                            <div class="flex-1">
+                                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                    <div id="audio-level-fill"
+                                        class="bg-primary h-2 rounded-full transition-all duration-100"
+                                        style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <span id="audio-level-text"
+                                class="text-sm text-muted-light dark:text-muted-dark whitespace-nowrap min-w-8 text-left">0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="p-4 rounded-xl border border-gray-300 dark:border-gray-700 bg-surface-light dark:bg-surface-dark shadow-sm">
+                    <p class="text-sm font-medium leading-normal text-text-light dark:text-text-dark mb-2"
+                        data-i18n="coach.speechAnalysis.pace">سرعة الكلام</p>
+                    <div class="flex items-center gap-4">
+                        <div class="relative w-16 h-16 shrink-0">
+                            <svg class="w-full h-full" viewBox="0 0 36 36">
+                                <path class="text-gray-200 dark:text-white/10"
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                    fill="none" stroke="currentColor" stroke-width="3"></path>
+                                <path class="progress-ring-circle text-data-amber"
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                    fill="none" stroke="currentColor" stroke-dasharray="0, 100" stroke-linecap="round"
+                                    stroke-width="3"></path>
+                            </svg>
+                            <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                <span class="text-text-light dark:text-text-dark text-lg font-bold"
+                                    id="pace-value">0</span>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-muted-light dark:text-muted-dark text-base font-bold leading-tight"
+                                id="pace-status">-</p>
+                            <p class="text-muted-light dark:text-muted-dark text-xs mt-1" id="pace-instruction"
+                                data-i18n="coach.speechAnalysis.paceInitial">ابدأ التحدث...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="h-48 flex flex-col p-4 rounded-xl border border-gray-300 dark:border-gray-700 bg-surface-light dark:bg-surface-dark shadow-sm min-h-0 flex-1">
+                    <p class="text-sm font-medium leading-normal text-text-light dark:text-text-dark"
+                        data-i18n="coach.speechAnalysis.fillerWords">الكلمات الحشوية</p>
+                    <p class="text-data-amber tracking-light text-3xl font-bold leading-tight my-2"
+                        id="filler-words-value">0</p>
+
+                    <div id="filler-words-grid"
+                        class="grid grid-cols-3 xl:grid-cols-4 gap-2 overflow-y-auto flex-1 content-start custom-scroll">
+                    </div>
+
+                    <div class="flex items-center gap-2 mt-2 pt-2 border-t border-gray-200 dark:border-gray-700">
+                        <span class="material-icons-outlined text-data-amber hidden"
+                            id="filler-warning-icon">warning</span>
+                        <p class="text-muted-light dark:text-muted-dark text-xs truncate" id="filler-description"
+                            data-i18n="coach.speechAnalysis.fillerWordsNone">لم يتم اكتشاف كلمات حشوية</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-3 flex-none">
+                    <div
+                        class="p-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-surface-light dark:bg-surface-dark shadow-sm">
+                        <p class="text-xs text-muted-light dark:text-muted-dark mb-2 font-medium"
+                            data-i18n="coach.speechAnalysis.emotionsTitle">المشاعر والتحليل النفسي</p>
+                        <div class="grid grid-cols-2 gap-x-3 gap-y-2">
+                            <div>
+                                <p class="text-[10px] text-muted-light dark:text-muted-dark leading-tight"
+                                    data-i18n="coach.speechAnalysis.sentiment">المشاعر</p>
+                                <p class="text-data-amber text-xs font-bold truncate leading-snug mt-0.5"
+                                    id="sentiment-value">-</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-muted-light dark:text-muted-dark leading-tight"
+                                    data-i18n="coach.speechAnalysis.intent">القصد</p>
+                                <p class="text-data-amber text-xs font-bold truncate leading-snug mt-0.5"
+                                    id="intent-value">-</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-muted-light dark:text-muted-dark leading-tight"
+                                    data-i18n="coach.speechAnalysis.intensity">الحدة</p>
+                                <div class="w-full h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full mt-1.5 overflow-hidden">
+                                    <div id="intensity-fill" class="h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-muted-light dark:text-muted-dark leading-tight"
+                                    data-i18n="coach.speechAnalysis.urgency">الاستعجال</p>
+                                <div class="flex gap-1 mt-1.5" id="urgency-buttons">
+                                    <button class="urgency-btn px-2 py-0.5 text-[10px] leading-tight rounded-md border transition-colors"
+                                        data-value="منخفض">منخفض</button>
+                                    <button class="urgency-btn px-2 py-0.5 text-[10px] leading-tight rounded-md border transition-colors"
+                                        data-value="متوسط">متوسط</button>
+                                    <button class="urgency-btn px-2 py-0.5 text-[10px] leading-tight rounded-md border transition-colors"
+                                        data-value="عالي">عالي</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="p-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-surface-light dark:bg-surface-dark shadow-sm">
+                        <p class="text-xs text-muted-light dark:text-muted-dark mb-1"
+                            data-i18n="coach.speechAnalysis.vocabDiversity">تنوع المفردات</p>
+                        <p class="text-data-amber text-xl font-bold" id="vocab-diversity-value">0%</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-6 flex flex-col gap-3 lg:h-full lg:overflow-hidden">
+                <h3
+                    class="text-text-light dark:text-text-dark text-lg font-bold leading-tight px-1 flex items-center gap-2 flex-none">
+                    <span class="material-icons-outlined text-primary">videocam</span>
+                    <span data-i18n="coach.camera">الكاميرا والتحليل</span>
+                </h3>
+
+                <div class="relative flex-1 bg-black rounded-2xl overflow-hidden border border-gray-300 dark:border-gray-700 shadow-md group"
+                    style="flex: 2;">
+                    <video id="webcam-feed" class="w-full h-full object-cover hidden" autoplay playsinline muted
+                        style="transform: scaleX(-1);"></video>
+                    <canvas id="webcam-canvas" class="w-full h-full object-cover hidden"></canvas>
+
+                    <img alt="Webcam feed placeholder" class="w-full h-full object-cover opacity-80"
+                        id="webcam-placeholder"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxAYxN_CIc5yUFliAf32jJ5B4EFs7folHrCLFvRprPkwnjLvSd4p35IrFSYAQCUlyZBSkPTzvC6GMBIfWE8k8nN63vMQLJp8Peu737H7Vm7mI8AJSUtTLCAjMsWcfBSuchn4f5BOpSc1mEW2s_96HztIhbOL3DvmFvG_ycpUiFYtCLlN2pHt5KgvlXbmdlTXEhJwGELX1zUWD4AouBxZ0Cm0uG8odhnSkkIG84_StZpJkz6o_bPHMeQm6MLuJdBeKZRK2EKvwk2_I" />
+
+                    <canvas id="overlay-canvas"
+                        class="absolute inset-0 w-full h-full object-cover pointer-events-none hidden"
+                        style="z-index: 5; transform: scaleX(-1);"></canvas>
+
+                    <div id="metric-badges" class="absolute top-4 rtl:left-4 ltr:right-4 z-20 flex gap-2 hidden">
+                        <div
+                            class="metric-badge bg-black/60 backdrop-blur-md rounded-lg px-2 py-1 flex items-center gap-1.5 border border-white/10">
+                            <span class="text-white text-base">👁️</span>
+                            <span class="text-white font-bold text-xs" id="badge-eye-contact">0%</span>
+                        </div>
+                        <div
+                            class="metric-badge bg-black/60 backdrop-blur-md rounded-lg px-2 py-1 flex items-center gap-1.5 border border-white/10">
+                            <span class="text-white text-base">🧍</span>
+                            <span class="text-white font-bold text-xs" id="badge-posture">100%</span>
+                        </div>
+                        <div
+                            class="metric-badge bg-black/60 backdrop-blur-md rounded-lg px-2 py-1 flex items-center gap-1.5 border border-white/10">
+                            <span class="text-white text-base">👋</span>
+                            <span class="text-white font-bold text-xs" id="badge-gestures">0</span>
+                        </div>
+                    </div>
+
+                    <button id="overlay-toggle-btn" onclick="toggleOverlay()"
+                        class="absolute top-4 rtl:right-4 ltr:left-4 bg-black/50 hover:bg-black/70 backdrop-blur-sm p-2 rounded-lg transition-all hidden z-10">
+                        <span class="material-icons-outlined text-white text-xl" id="overlay-icon">visibility_off</span>
+                    </button>
+
+                    <div id="alert-banner" class="absolute bottom-16 left-4 right-4 z-30 hidden">
+                        <div class="rounded-lg backdrop-blur-md p-3 flex items-center gap-3" id="alert-content">
+                            <span class="text-2xl" id="alert-icon">⚠️</span>
+                            <div class="flex-1">
+                                <div class="text-white font-bold text-sm" id="alert-message">Alert</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="absolute bottom-4 left-4 flex items-center gap-2 bg-black/50 backdrop-blur-sm p-2 rounded-lg hidden"
+                        id="recording-indicator">
+                        <div class="w-2 h-2 rounded-full bg-data-red animate-pulse"></div>
+                        <span class="text-white text-xs font-semibold" id="recording-timer">00:00:00</span>
+                    </div>
+
+                    <div id="topic-badge"
+                        class="absolute right-4 bottom-4 bg-black/60 backdrop-blur-md rounded-lg px-3 py-1 flex items-center gap-2 z-20 hidden">
+                        <span class="text-white text-lg">📝</span>
+                        <span class="text-white font-bold text-xs" id="topic-name">Lecture</span>
+                    </div>
+
+                    <div id="webcam-status"
+                        class="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm hidden">
+                        <div class="text-center text-white p-4">
+                            <span class="material-icons-outlined text-4xl mb-2">videocam_off</span>
+                            <p class="text-lg font-semibold" data-i18n="coach.cameraInactive">الكاميرا غير نشطة</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 h-48 shrink-0" style="flex: 1;">
+                    <div
+                        class="flex flex-col gap-1 rounded-xl border border-gray-300 dark:border-gray-700 bg-surface-light dark:bg-surface-dark p-3 shadow-sm relative overflow-hidden">
+                        <h4 class="text-text-light dark:text-text-dark text-sm font-bold flex items-center gap-1">
+                            <span class="material-icons-outlined text-base">fact_check</span>
+                            <span data-i18n="coach.contentAnalysis">تحليل المحتوى</span>
+                        </h4>
+                        <div class="flex-1 overflow-y-auto dashboard-scroll relative">
+                            <div id="ai-feedback-content" class="text-sm leading-relaxed pb-4">
+                                <p class="text-muted-light dark:text-muted-dark italic text-center mt-4"
+                                    data-i18n="coach.contentPlaceholder">سيظهر التحليل هنا...</p>
+                            </div>
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 h-1 bg-gray-200 dark:bg-gray-700">
+                            <div id="feedback-progress-bar" class="bg-primary h-full transition-all duration-1000"
+                                style="width: 0%"></div>
+                        </div>
+                        <div id="ai-feedback-refresh"
+                            class="hidden absolute bottom-2 right-2 text-[10px] text-muted-light opacity-50">
+                            <span id="feedback-refresh-timer">-</span>s
+                        </div>
+                    </div>
+
+                    <div
+                        class="flex flex-col gap-1 rounded-xl border border-gray-300 dark:border-gray-700 bg-surface-light dark:bg-surface-dark p-3 shadow-sm relative overflow-hidden">
+                        <h4 class="text-text-light dark:text-text-dark text-sm font-bold flex items-center gap-1">
+                            <span class="material-icons-outlined text-base">navigation</span>
+                            <span data-i18n="coach.speakingGuidance">توجيهات</span>
+                        </h4>
+                        <div class="flex-1 overflow-y-auto dashboard-scroll relative">
+                            <div id="speaking-guidance-content" class="text-sm leading-relaxed pb-4">
+                                <p class="text-muted-light dark:text-muted-dark italic text-center mt-4"
+                                    data-i18n="coach.guidancePlaceholder">ستظهر التوجيهات هنا...</p>
+                            </div>
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 h-1 bg-gray-200 dark:bg-gray-700">
+                            <div id="guidance-progress-bar" class="bg-primary h-full transition-all duration-1000"
+                                style="width: 0%"></div>
+                        </div>
+                        <div id="speaking-guidance-refresh"
+                            class="hidden absolute bottom-2 right-2 text-[10px] text-muted-light opacity-50">
+                            <span id="guidance-refresh-timer">-</span>s
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-3 flex flex-col gap-3 lg:h-full lg:overflow-hidden pl-1 pr-1">
+                <h3
+                    class="text-text-light dark:text-text-dark text-lg font-bold leading-tight px-1 flex items-center gap-2">
+                    <span class="material-icons-outlined text-primary">visibility</span>
+                    <span data-i18n="coach.visualAnalysis.title">التحليل البصري والنص</span>
+                </h3>
+
+                <div
+                    class="flex flex-col p-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-surface-light dark:bg-surface-dark gap-2 shadow-sm shrink-0">
+                    <p class="text-sm font-medium text-text-light dark:text-text-dark" data-i18n="coach.sessionStats">
+                        إحصائيات الجلسة</p>
+
+                    <div class="space-y-2">
+                        <div
+                            class="p-2 bg-background-light dark:bg-background-dark rounded border border-gray-100 dark:border-gray-800">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-xs text-muted-light dark:text-muted-dark"
+                                    data-i18n="coach.visualAnalysis.eyeContact">تواصل بصري</span>
+                                <span class="text-sm font-bold text-data-green" id="eye-contact-rate">0%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
+                                <div id="eye-contact-bar"
+                                    class="bg-data-green h-1.5 rounded-full transition-all duration-300"
+                                    style="width: 0%"></div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="p-2 bg-background-light dark:bg-background-dark rounded border border-gray-100 dark:border-gray-800">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-xs text-muted-light dark:text-muted-dark"
+                                    data-i18n="coach.poseDetection">جودة الوضعية</span>
+                                <span class="text-sm font-bold text-data-green" id="pose-detection-rate">0%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
+                                <div id="pose-detection-bar"
+                                    class="bg-data-green h-1.5 rounded-full transition-all duration-300"
+                                    style="width: 0%"></div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="p-2 bg-background-light dark:bg-background-dark rounded border border-gray-100 dark:border-gray-800">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-xs text-muted-light dark:text-muted-dark"
+                                    data-i18n="coach.handDetection">كشف اليدين</span>
+                                <span class="text-sm font-bold text-text-light dark:text-text-dark"
+                                    id="hand-detection-rate">0%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
+                                <div id="hand-detection-bar"
+                                    class="bg-data-green h-1.5 rounded-full transition-all duration-300"
+                                    style="width: 0%"></div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="p-2 bg-background-light dark:bg-background-dark rounded border border-gray-100 dark:border-gray-800">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-xs text-muted-light dark:text-muted-dark">FPS</span>
+                                <span class="text-sm font-bold text-text-light dark:text-text-dark"
+                                    id="video-fps">0</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
+                                <div id="fps-bar" class="bg-primary h-1.5 rounded-full transition-all duration-300"
+                                    style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-1.5 pt-1 mt-1 border-t border-gray-200 dark:border-gray-700">
+                        <span
+                            class="material-icons-outlined text-sm text-muted-light dark:text-muted-dark flex-shrink-0 mt-0.5">info</span>
+                        <p class="text-[10px] text-muted-light dark:text-muted-dark leading-tight">
+                            التنبيهات والمقاييس الحية تظهر مباشرة على الفيديو.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex-1 flex flex-col gap-2 min-h-[300px] lg:min-h-0">
+                    <h4 class="text-text-light dark:text-text-dark text-md font-bold leading-tight px-1"
+                        data-i18n="coach.transcription.title">النسخ المباشر</h4>
+                    <div
+                        class="flex-1 p-4 rounded-xl border border-gray-300 dark:border-gray-700 bg-surface-light dark:bg-surface-dark overflow-y-auto dashboard-scroll shadow-sm">
+                        <div id="transcription-display"
+                            class="text-text-light dark:text-text-dark text-sm leading-relaxed">
+                            <p class="text-muted-light dark:text-muted-dark italic opacity-70"
+                                data-i18n="coach.transcription.placeholder">سيظهر النص هنا عندما تبدأ في التحدث...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <div id="topic-modal"
+        class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-start justify-center z-[60] hidden pt-20">
+        <div
+            class="bg-surface-light dark:bg-surface-dark rounded-xl shadow-2xl p-6 w-96 max-w-[90vw] mx-4 border border-gray-200 dark:border-gray-700">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-bold text-text-light dark:text-text-dark" data-i18n="coach.selectTopicTitle">
+                    اختر نوع الخطاب</h3>
+                <button id="close-topic-modal"
+                    class="text-muted-light hover:text-text-light dark:hover:text-text-dark transition-colors">
+                    <span class="material-icons-outlined">close</span>
+                </button>
+            </div>
+
+            <div class="mb-6 space-y-3">
+                <label
+                    class="flex items-start space-x-3 space-x-reverse cursor-pointer p-3 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all has-[:checked]:border-primary has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
+                    <input type="radio" name="speech-topic" value="lecture" checked
+                        class="mt-1 w-4 h-4 text-primary border-gray-300 focus:ring-primary">
+                    <div class="flex-1 mr-2 rtl:mr-2 rtl:ml-0 ltr:ml-2">
+                        <span class="text-text-light dark:text-text-dark text-sm font-bold block"
+                            data-i18n="coach.lecture">محاضرة</span>
+                        <p class="text-xs text-muted-light dark:text-muted-dark mt-1" data-i18n="coach.lectureDesc">
+                            مناسبة للعروض التقديمية والتعليمية</p>
+                    </div>
+                </label>
+                <label
+                    class="flex items-start space-x-3 space-x-reverse cursor-pointer p-3 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all has-[:checked]:border-primary has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
+                    <input type="radio" name="speech-topic" value="khutba"
+                        class="mt-1 w-4 h-4 text-primary border-gray-300 focus:ring-primary">
+                    <div class="flex-1 mr-2 rtl:mr-2 rtl:ml-0 ltr:ml-2">
+                        <span class="text-text-light dark:text-text-dark text-sm font-bold block"
+                            data-i18n="coach.khutba">خطبة</span>
+                        <p class="text-xs text-muted-light dark:text-muted-dark mt-1" data-i18n="coach.khutbaDesc">
+                            مناسبة للخطب الدينية والوعظية</p>
+                    </div>
+                </label>
+            </div>
+
+            <div class="flex justify-end gap-3">
+                <button id="cancel-topic"
+                    class="px-4 py-2 rounded-xl text-sm font-medium text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                    data-i18n="common.cancel">إلغاء</button>
+                <button id="save-topic"
+                    class="bg-primary text-white px-6 py-2 rounded-xl text-sm font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-500/30"
+                    data-i18n="common.save">حفظ</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('✅ Coach page loaded with Responsive 12-Column Layout');
+
+            if (window.LanguageSwitcher) {
+                const currentLang = localStorage.getItem('ilqaa_language') || 'ar';
+                window.LanguageSwitcher.setLanguage(currentLang);
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('token')) {
+                const newUrl = window.location.pathname;
+                window.history.replaceState({}, document.title, newUrl);
+            }
+
+            const token = localStorage.getItem('ilqaa_token');
+            if (!token) {
+                console.log('⚠️ No token found');
+            }
+        });
+
+        function logout() {
+            localStorage.removeItem('ilqaa_token');
+            localStorage.removeItem('ilqaa_session_token');
+            localStorage.removeItem('ilqaa_firebase_token');
+            localStorage.removeItem('ilqaa_user');
+            if (window.firebaseAuth) window.firebaseAuth.logout().catch(() => { });
+            document.cookie = "ilqaa_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            window.location.href = '/login';
+        }
+    </script>
+</body>
+
+</html>
