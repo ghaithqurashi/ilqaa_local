@@ -12,7 +12,26 @@ Both folders were imported with `git subtree`, so their full commit history is p
 
 ## Running locally
 
-Start the backend first, then the frontend.
+### Linux
+
+After the one-time Python and Node.js setup below, run this from the project folder
+to start Ilqaa and open it in your browser:
+
+```bash
+./start_server.sh --open-browser
+```
+
+To create an **Ilqaa** icon on your desktop, run `./start_server.sh --install-desktop`
+once. On desktops that require it, right-click the icon and select **Allow Launching**.
+The launcher opens a terminal with server output. Press **Ctrl+C** there to stop the
+servers. Use `--no-asr` when you want to skip the local speech-recognition server.
+
+### Manual setup and startup
+
+On a fresh checkout, install the backend and frontend dependencies and configure
+`backend/.env`. To start with the launcher, skip the `uvicorn` and `npm run dev` commands.
+For manual startup, run the backend and frontend blocks in separate terminals from the
+repository root.
 
 ```bash
 # backend – http://localhost:8000
